@@ -1,4 +1,8 @@
 ## H2 database application properties
 ## embedded used
 mybatis:
+  ## mapper.xml 파일 경로 설정
   mapper-locations: classpath:mappers/**/*.xml
+  configuration:
+    ## mapper snake case -> java camel case converter
+    map-underscore-to-camel-case: true
