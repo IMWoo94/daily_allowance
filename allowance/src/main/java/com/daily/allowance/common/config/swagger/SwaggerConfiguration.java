@@ -1,4 +1,4 @@
-package com.daily.allowance.config.swagger;
+package com.daily.allowance.common.config.swagger;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
@@ -13,7 +13,7 @@ import io.swagger.v3.core.jackson.ModelResolver;
 public class SwaggerConfiguration {
 
 	@Bean
-	public ModelResolver modelResolver (ObjectMapper objectMapper){
+	public ModelResolver modelResolver(ObjectMapper objectMapper) {
 		return new ModelResolver(objectMapper);
 	}
 }

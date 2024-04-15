@@ -1,4 +1,4 @@
-package com.daily.allowance.config.objectmapper;
+package com.daily.allowance.common.config.objectmapper;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,7 +13,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 @Configuration
 public class ObjectMapperConfiguration {
 	@Bean
-	public ObjectMapper objectMapper(){
+	public ObjectMapper objectMapper() {
 		var objectMapper = new ObjectMapper();
 
 		// jdk 8 버전 이후 클래스
