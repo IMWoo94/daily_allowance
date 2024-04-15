@@ -1,6 +1,8 @@
-
 spring:
   application:
     name: allowance
   profiles:
     active: h2, mybatis
+logging:
+  level:
+    root: info
