@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.daily.allowance.domain.payment.mapper.PaymentMapper">
+    <select id="searchPaymentHistory"
+            parameterType="com.daily.allowance.domain.payment.dto.PaymentHistoryRequestDto"
+            resultType="com.daily.allowance.domain.payment.dto.PaymentHistoryResponseDto">
+        SELECT p.*
+             , m.mission_name
+        FROM PAYMENT p
+                 LEFT OUTER JOIN MISSION m
+                                 ON (p.mission_id = m.mission_id)
+        WHERE p.STATUS = 'ok'
+          AND p.PAYMENT_DATE BETWEEN #{startDate}
+            AND #{endDate}
+    </select>
+</mapper>
