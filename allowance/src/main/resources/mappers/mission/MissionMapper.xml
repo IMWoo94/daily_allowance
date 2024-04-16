@@ -4,11 +4,10 @@
 
 <mapper namespace="com.daily.allowance.domain.mission.mapper.MissionMapper">
     <select id="searchAvailableMission"
-            parameterType="Boolean"
-            resultType="com.daily.allowance.domain.mission.dao.MissionDao">
+            resultType="com.daily.allowance.domain.mission.dto.MissionResponseDto">
         SELECT *
         FROM MISSION
-        WHERE ACTIVE = #{active}
+        WHERE ACTIVE = 1
           AND CURRENT_DATE BETWEEN START_DATE AND END_DATE
     </select>
 </mapper>

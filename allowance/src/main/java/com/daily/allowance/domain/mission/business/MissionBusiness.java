@@ -18,11 +18,11 @@ public class MissionBusiness {
 		this.missionConverter = missionConverter;
 	}
 
+	/**
+	 * [Mission] - 미션 목록 조회
+	 * @return List<MissionResponseDto>
+	 */
 	public List<MissionResponseDto> searchAvailableMission() {
-		var missions = missionService.searchAvailableMission();
-
-		return missions.stream()
-			.map(missionConverter::toResponse)
-			.toList();
+		return missionService.searchAvailableMission();
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daily.allowance.common.api.Api;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 
@@ -19,8 +20,20 @@ public class MissionOpenApiController {
 		this.missionBusiness = missionBusiness;
 	}
 
+	/**
+	 * [Mission] - 미션 목록 조회
+	 */
 	@GetMapping
-	public List<MissionResponseDto> searchAvailableMission() {
-		return missionBusiness.searchAvailableMission();
+	public Api searchAvailableMission() {
+		List<MissionResponseDto> response = missionBusiness.searchAvailableMission();
+		return Api.OK(response);
+	}
+
+	/**
+	 * [Mission] - 미션 도전
+	 */
+	public Api missionChallenge() {
+
+		return Api.OK();
 	}
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.daily.allowance.domain.mission.dao.MissionDao;
+import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.mapper.MissionMapper;
 
 @Service
@@ -16,11 +16,11 @@ public class MissionService {
 		this.missionMapper = missionMapper;
 	}
 
-	public void findAll() {
-
-	}
-
-	public List<MissionDao> searchAvailableMission() {
-		return missionMapper.searchAvailableMission(true);
+	/**
+	 * [Mission] - 미션 목록 조회
+	 * @return List<MissionResponseDto>
+	 */
+	public List<MissionResponseDto> searchAvailableMission() {
+		return missionMapper.searchAvailableMission();
 	}
 }

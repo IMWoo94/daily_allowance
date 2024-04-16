@@ -19,6 +19,14 @@ public class Api<T, L> {
 	// 요청 파라미터
 	private L loopbackParam;
 
+	public static <T, L> Api<T, L> OK() {
+		var api = new Api<T, L>();
+		api.responseCode = SuccessCode.OK;
+		api.result = null;
+		api.loopbackParam = null;
+		return api;
+	}
+
 	public static <T, L> Api<T, L> OK(T result) {
 		var api = new Api<T, L>();
 		api.responseCode = SuccessCode.OK;
