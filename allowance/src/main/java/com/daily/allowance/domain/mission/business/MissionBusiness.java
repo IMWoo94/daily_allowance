@@ -19,6 +19,19 @@ public class MissionBusiness {
 		this.missionConverter = missionConverter;
 	}
 
+	public void missionRegister() {
+		// TODO
+		// 신규 미션 등록
+		// 운영 기간전에 사전 등록 해야 함으로, 현재 일자 기준 넘어가면 등록 불가하도록 처리
+
+	}
+
+	public void missionModifiedActive() {
+		// TODO
+		// 미션 수정
+		// 옵션에 비활성화(Y), 활성화(N)
+	}
+
 	/**
 	 * [Mission] - 미션 목록 조회
 	 * @return List<MissionResponseDto>
