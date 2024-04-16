@@ -18,8 +18,8 @@ public class MissionBusiness {
 		this.missionConverter = missionConverter;
 	}
 
-	public List<MissionResponseDto> searchMission() {
-		var missions = missionService.findAllByActive();
+	public List<MissionResponseDto> searchAvailableMission() {
+		var missions = missionService.searchAvailableMission();
 
 		return missions.stream()
 			.map(missionConverter::toResponse)

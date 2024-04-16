@@ -20,7 +20,7 @@ public class MissionOpenApiController {
 	}
 
 	@GetMapping
-	public List<MissionResponseDto> searchMission() {
-		return missionBusiness.searchMission();
+	public List<MissionResponseDto> searchAvailableMission() {
+		return missionBusiness.searchAvailableMission();
 	}
 }

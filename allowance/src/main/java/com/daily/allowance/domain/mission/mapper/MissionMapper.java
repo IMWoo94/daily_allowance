@@ -10,7 +10,7 @@ public interface MissionMapper {
 
 	// void findAll();
 	//
-	List<MissionDao> findAllByActiveOrderByMissionIdDesc(boolean active);
+	List<MissionDao> searchAvailableMission(boolean active);
 	//
 	// void insertMission();
 	//

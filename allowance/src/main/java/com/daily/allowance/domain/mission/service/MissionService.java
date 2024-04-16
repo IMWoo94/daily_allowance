@@ -20,7 +20,7 @@ public class MissionService {
 
 	}
 
-	public List<MissionDao> findAllByActive() {
-		return missionMapper.findAllByActiveOrderByMissionIdDesc(true);
+	public List<MissionDao> searchAvailableMission() {
+		return missionMapper.searchAvailableMission(true);
 	}
 }
