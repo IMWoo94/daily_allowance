@@ -28,10 +28,10 @@ public class MissionApiController {
 	 * [Mission] - 미션 등록
 	 */
 	@PostMapping("/register")
-	public Api missionRegister(
+	public Api registerMission(
 		@RequestBody @Valid MissionRegisterRequestDto missionRegisterRequestDto
 	) {
-		MissionResponseDto response = missionBusiness.missionRegister(missionRegisterRequestDto);
+		MissionResponseDto response = missionBusiness.registerMission(missionRegisterRequestDto);
 		return Api.OK(response, missionRegisterRequestDto, SuccessCode.MISSION_REGISTER);
 	}
 
@@ -39,10 +39,11 @@ public class MissionApiController {
 	 * [Mission] - 미션 활성화, 비활성화
 	 */
 	@PostMapping("/modified/active")
-	public void missionModifiedActive(
+	public Api modifiedMissionActive(
 		@RequestBody @Valid MissionModifiedActiveRequestDto missionModifiedActiveRequestDto
 	) {
-		missionBusiness.missionModifiedActive();
+		missionBusiness.modifiedMissionActive(missionModifiedActiveRequestDto);
+		return Api.OK(null, missionModifiedActiveRequestDto, SuccessCode.MISSION_MODIFIED);
 	}
 
 }

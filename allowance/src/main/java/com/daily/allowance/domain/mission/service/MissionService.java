@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.mapper.MissionMapper;
@@ -25,7 +26,19 @@ public class MissionService {
 		return missionMapper.searchAvailableMission();
 	}
 
-	public void registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
-		missionMapper.registerMission(missionRegisterRequestDto);
+	/**
+	 * [ Mission ] - 미션 등록
+	 * @param missionRegisterRequestDto
+	 */
+	public int registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
+		return missionMapper.registerMission(missionRegisterRequestDto);
+	}
+
+	/**
+	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
+	 * @param missionModifiedActiveRequestDto
+	 */
+	public int modifiedMissionActive(MissionModifiedActiveRequestDto missionModifiedActiveRequestDto) {
+		return missionMapper.modifiedMissionActive(missionModifiedActiveRequestDto);
 	}
 }

@@ -29,4 +29,10 @@
             #{active}
         )
     </insert>
+
+    <update id="modifiedMissionActive">
+        update mission
+        set active = #{active}
+        where mission_id = #{missionId}
+    </update>
 </mapper>

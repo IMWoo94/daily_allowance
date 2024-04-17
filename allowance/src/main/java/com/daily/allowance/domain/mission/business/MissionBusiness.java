@@ -4,11 +4,14 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
+import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.validator.DateValidator;
 import com.daily.allowance.domain.mission.converter.MissionConverter;
 import com.daily.allowance.domain.mission.dto.MissionChallengeRequestDto;
+import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
+import com.daily.allowance.domain.mission.exception.MissionRegisterException;
 import com.daily.allowance.domain.mission.service.MissionService;
 import com.daily.allowance.domain.mission.validator.MissionValidator;
 
@@ -23,7 +26,14 @@ public class MissionBusiness {
 		this.missionConverter = missionConverter;
 	}
 
-	public MissionResponseDto missionRegister(MissionRegisterRequestDto missionRegisterRequestDto) {
+	/**
+	 * [ Mission ] - 미션 등록
+	 * 1. 날짜 데이터 타입 유효성 검증 ( 시작일, 종료일 )
+	 * 2. 시작일, 종료일 유효성 검증 ( 종료일이 시작일 보다 커야한다. )
+	 * 3. 운영 기간 사전 등록 검증 ( 시작일이 현재일 보다 커야한다. )
+	 * 4. DB 등록
+	 */
+	public MissionResponseDto registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
 		// 날짜 데이터 타입 유효성 검증
 		LocalDate sDate = missionRegisterRequestDto.getStartDate();
 		LocalDate eDate = missionRegisterRequestDto.getEndDate();
@@ -36,17 +46,28 @@ public class MissionBusiness {
 		MissionValidator.periodValidateWithThrow(sDate);
 
 		// 신규 미션 등록
-		missionService.registerMission(missionRegisterRequestDto);
+		int result = missionService.registerMission(missionRegisterRequestDto);
+
+		if (result == 0) {
+			throw new MissionRegisterException(ErrorCode.MISSION_REGISTER_FAIL);
+		}
 
 		// 응답 결과 리턴 ( 미선 ID 값 추가 )
 		return missionConverter.toResponse(missionRegisterRequestDto);
 
 	}
 
-	public void missionModifiedActive() {
-		// TODO
+	/**
+	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
+	 * 1. 미션 활성화 수정
+	 */
+	public void modifiedMissionActive(MissionModifiedActiveRequestDto missionModifiedActiveRequestDto) {
 		// 미션 수정
-		// 옵션에 비활성화(Y), 활성화(N)
+		int result = missionService.modifiedMissionActive(missionModifiedActiveRequestDto);
+
+		if (result == 0) {
+			throw new MissionRegisterException(ErrorCode.MISSION_MODIFIED_FAIL);
+		}
 	}
 
 	/**
