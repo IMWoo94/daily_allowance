@@ -16,16 +16,14 @@ import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
 
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/mission")
+@RequiredArgsConstructor
 public class MissionApiController {
 
 	private final MissionBusiness missionBusiness;
-
-	public MissionApiController(MissionBusiness missionBusiness) {
-		this.missionBusiness = missionBusiness;
-	}
 
 	/**
 	 * [Mission] - 미션 조회
