@@ -26,15 +26,15 @@ public class MissionBusiness {
 
 	/**
 	 * [Mission] - 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
-	public List<MissionResponseDto> searchMission(MissionSearchRequestDto missionSearchRequestDto) {
-		return missionService.searchMission(missionSearchRequestDto);
+	public List<MissionResponseDto> searchMission(MissionSearchRequestDto request) {
+		return missionService.searchMission(request);
 	}
 
 	/**
 	 * [Mission] - 가능 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
 	public List<MissionResponseDto> searchAvailableMission() {
 		return missionService.searchAvailableMission();
@@ -45,21 +45,21 @@ public class MissionBusiness {
 	 * 1. 미션 운영 기간 검증
 	 * 2. 신규 미션 등록
 	 */
-	public MissionResponseDto registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
+	public MissionResponseDto registerMission(MissionRegisterRequestDto request) {
 		// 1. 미션 운영 기간 검증
-		LocalDate sDate = missionRegisterRequestDto.getStartDate();
-		LocalDate eDate = missionRegisterRequestDto.getEndDate();
+		LocalDate sDate = request.getStartDate();
+		LocalDate eDate = request.getEndDate();
 		missionDateValidate(sDate, eDate);
 
 		// 2. 신규 미션 등록
-		int result = missionService.registerMission(missionRegisterRequestDto);
+		int result = missionService.registerMission(request);
 
 		if (result == 0) {
 			throw new MissionRegisterException(ErrorCode.MISSION_REGISTER_FAIL);
 		}
 
 		// 응답 결과 리턴 ( 미선 ID 값 추가 )
-		return missionConverter.toResponse(missionRegisterRequestDto);
+		return missionConverter.toResponse(request);
 
 	}
 
@@ -84,9 +84,9 @@ public class MissionBusiness {
 	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
 	 * 1. 미션 활성화 수정
 	 */
-	public void modifiedMissionActive(MissionModifiedActiveRequestDto missionModifiedActiveRequestDto) {
+	public void modifiedMissionActive(MissionModifiedActiveRequestDto request) {
 		// 1. 미션 활성화 수정
-		int result = missionService.modifiedMissionActive(missionModifiedActiveRequestDto);
+		int result = missionService.modifiedMissionActive(request);
 
 		if (result == 0) {
 			throw new MissionRegisterException(ErrorCode.MISSION_MODIFIED_FAIL);

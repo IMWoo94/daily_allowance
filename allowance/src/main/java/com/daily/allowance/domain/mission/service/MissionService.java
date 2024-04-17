@@ -20,15 +20,15 @@ public class MissionService {
 
 	/**
 	 * [Mission] - 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
-	public List<MissionResponseDto> searchMission(MissionSearchRequestDto missionSearchRequestDto) {
-		return missionMapper.searchMission(missionSearchRequestDto);
+	public List<MissionResponseDto> searchMission(MissionSearchRequestDto request) {
+		return missionMapper.searchMission(request);
 	}
 
 	/**
 	 * [Mission] - 가능 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
 	public List<MissionResponseDto> searchAvailableMission() {
 		return missionMapper.searchAvailableMission();
@@ -36,17 +36,15 @@ public class MissionService {
 
 	/**
 	 * [ Mission ] - 미션 등록
-	 * @param missionRegisterRequestDto
 	 */
-	public int registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
-		return missionMapper.registerMission(missionRegisterRequestDto);
+	public int registerMission(MissionRegisterRequestDto request) {
+		return missionMapper.registerMission(request);
 	}
 
 	/**
 	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
-	 * @param missionModifiedActiveRequestDto
 	 */
-	public int modifiedMissionActive(MissionModifiedActiveRequestDto missionModifiedActiveRequestDto) {
-		return missionMapper.modifiedMissionActive(missionModifiedActiveRequestDto);
+	public int modifiedMissionActive(MissionModifiedActiveRequestDto request) {
+		return missionMapper.modifiedMissionActive(request);
 	}
 }

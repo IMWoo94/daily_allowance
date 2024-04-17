@@ -12,9 +12,14 @@ import lombok.Getter;
 @Getter
 public enum SuccessCode implements CodeIfs {
 
+	// 시스템 코드
 	OK(HttpStatus.OK.value(), 10000, "OK", "OK"),
+
+	// 미션 코드
 	MISSION_REGISTER(HttpStatus.OK.value(), 10001, "미션 등록 완료", "미션 등록 완료"),
 	MISSION_MODIFIED(HttpStatus.OK.value(), 10002, "미션 수정 완료", "미션 수정 완료");
+
+	// 지급 코드
 
 	private final Integer httpStatusCode;
 	// 정의한 status 코드

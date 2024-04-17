@@ -3,6 +3,7 @@ package com.daily.allowance.domain.payment.business;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
+import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.converter.PaymentConverter;
 import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
@@ -10,6 +11,7 @@ import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.service.PaymentService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,7 +32,7 @@ public class PaymentBusiness {
 
 	/**
 	 * [ payment ] - 데일리 용돈 받기
-	 * 데일리 용돈 검증 필요
+	 *
 	 * 1. 데일리 용돈 금액 확인
 	 * 2. 금일 참여 확인
 	 *
@@ -42,7 +44,7 @@ public class PaymentBusiness {
 	public void dailyAllowancePayment(Member member, PaymentDailyRequestDto request) {
 		PaymentRequestDto paymentRequestDto = paymentConverter.toRequest(member, request);
 
-		// 금일 기준 중복 참여 확인
+		// 데일리 용돈 검증
 		dailyAllowanceValidate(paymentRequestDto);
 
 		// 지급 등록
@@ -53,12 +55,17 @@ public class PaymentBusiness {
 		// 1. 데일리 용돈 금액 확인
 		// 0 원 이상이여 합니다.
 		boolean amountCheck = isAmountLessThanZero(request.getPaymentAmount());
+		if (amountCheck) {
+			// 지급 불가 - 금액 이슈
+			throw new PaymentException(ErrorCode.AMOUNT_LESS_THAN_ZERO);
+		}
 
 		// 2. 금일 참여 확인
 		boolean duplicateCheck = hasDuplicatePayment(request);
 
-		if (duplicateCheck || amountCheck) {
-			// 지급 불가
+		if (duplicateCheck) {
+			// 지급 불가 - 중복 참여
+			throw new PaymentException(ErrorCode.DUPLICATED_PARTICIPATE, "데일리 용돈 받기 중복 참여");
 		}
 
 	}

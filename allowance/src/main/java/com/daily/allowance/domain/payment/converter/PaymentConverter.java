@@ -8,6 +8,7 @@ import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.model.PaymentCode;
+import com.daily.allowance.domain.payment.model.PaymentStatus;
 
 @Converter
 public class PaymentConverter {
@@ -17,7 +18,7 @@ public class PaymentConverter {
 			.memberId(member.getMemberId())
 			.paymentAmount(request.getPaymentAmount())
 			.paymentCode(PaymentCode.DAILY)
-			.status("지급 요청")
+			.status(PaymentStatus.WAIT)
 			.paymentDate(LocalDate.now())
 			.build();
 	}
@@ -28,7 +29,7 @@ public class PaymentConverter {
 			.missionId(request.getMissionId())
 			.paymentAmount(request.getMissionAmount())
 			.paymentCode(PaymentCode.MISSION)
-			.status("지급 요청")
+			.status(PaymentStatus.WAIT)
 			.paymentDate(LocalDate.now())
 			.build();
 	}

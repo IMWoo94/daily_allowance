@@ -13,9 +13,12 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode implements CodeIfs {
 
+	// 시스템 코드
 	BAD_REQUEST(HttpStatus.BAD_REQUEST.value(), 30000, "잘못된 요청", "잘못된 요청"),
 	SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), 30001, "서버 에러", "서버 에러"),
 	NULL_POINT(HttpStatus.INTERNAL_SERVER_ERROR.value(), 30002, "Null Point", "Null Point"),
+
+	// 미션 코드
 	INVALID_DATE(HttpStatus.BAD_REQUEST.value(), 30003, "유효하지 않은 날짜 입니다.", "유효하지 않은 날짜 입니다."),
 	END_DATE_SMALL(HttpStatus.BAD_REQUEST.value(), 30004, "종료일이 시작일보다 작습니다.", "운영 기간을 다시 확인해주세요."),
 	INVALID_PERIOD(HttpStatus.BAD_REQUEST.value(), 30005, "운영 기간에 미션을 추가할 수 없습니다.", "운영 기간을 다시 확인해주세요."),
@@ -24,6 +27,11 @@ public enum ErrorCode implements CodeIfs {
 	MISSION_MODIFIED_FAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), 30006, "미션 수정에 실패하였습니다.",
 		"미션 수정에 실패하였습니다."),
 
+	// 지급 코드
+	DUPLICATED_PARTICIPATE(HttpStatus.BAD_REQUEST.value(), 30007, "중복 참여", "중복 참여"),
+	AMOUNT_LESS_THAN_ZERO(HttpStatus.BAD_REQUEST.value(), 30008, "지급 금액이 0원 미만 입니다.", "지급 금액이 0원 미만 입니다."),
+
+	// 규격 외 코드
 	UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), 99999, "예외 내역을 확인해주세요.", "정의되지 않은 예외 입니다.");
 	private final Integer httpStatusCode;
 	// 정의한 status 코드

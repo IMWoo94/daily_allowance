@@ -30,10 +30,10 @@ public class MissionApiController {
 	 */
 	@PostMapping
 	public Api searchMission(
-		@RequestBody @Valid MissionSearchRequestDto missionSearchRequestDto
+		@RequestBody @Valid MissionSearchRequestDto request
 	) {
-		List<MissionResponseDto> response = missionBusiness.searchMission(missionSearchRequestDto);
-		return Api.OK(response, missionSearchRequestDto, SuccessCode.OK);
+		List<MissionResponseDto> response = missionBusiness.searchMission(request);
+		return Api.OK(response, request, SuccessCode.OK);
 	}
 
 	/**
@@ -41,10 +41,10 @@ public class MissionApiController {
 	 */
 	@PostMapping("/register")
 	public Api registerMission(
-		@RequestBody @Valid MissionRegisterRequestDto missionRegisterRequestDto
+		@RequestBody @Valid MissionRegisterRequestDto request
 	) {
-		MissionResponseDto response = missionBusiness.registerMission(missionRegisterRequestDto);
-		return Api.OK(response, missionRegisterRequestDto, SuccessCode.MISSION_REGISTER);
+		MissionResponseDto response = missionBusiness.registerMission(request);
+		return Api.OK(response, request, SuccessCode.MISSION_REGISTER);
 	}
 
 	/**
@@ -52,10 +52,10 @@ public class MissionApiController {
 	 */
 	@PostMapping("/modified/active")
 	public Api modifiedMissionActive(
-		@RequestBody @Valid MissionModifiedActiveRequestDto missionModifiedActiveRequestDto
+		@RequestBody @Valid MissionModifiedActiveRequestDto request
 	) {
-		missionBusiness.modifiedMissionActive(missionModifiedActiveRequestDto);
-		return Api.OK(null, missionModifiedActiveRequestDto, SuccessCode.MISSION_MODIFIED);
+		missionBusiness.modifiedMissionActive(request);
+		return Api.OK(null, request, SuccessCode.MISSION_MODIFIED);
 	}
 
 }

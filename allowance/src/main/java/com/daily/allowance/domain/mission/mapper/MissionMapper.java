@@ -15,26 +15,24 @@ public interface MissionMapper {
 
 	/**
 	 * [Mission] - 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
-	List<MissionResponseDto> searchMission(MissionSearchRequestDto missionSearchRequestDto);
+	List<MissionResponseDto> searchMission(MissionSearchRequestDto request);
 
 	/**
 	 * [Mission] - 가능 미션 목록 조회
-	 * @return List<MissionResponseDto>
+	 * @return List
 	 */
 	@Select("select * from mission where active = true and CURRENT_DATE between start_date and end_date")
 	List<MissionResponseDto> searchAvailableMission();
 
 	/**
 	 * [ Mission ] - 미션 등록
-	 * @param missionRegisterRequestDto
 	 */
-	int registerMission(MissionRegisterRequestDto missionRegisterRequestDto);
+	int registerMission(MissionRegisterRequestDto request);
 
 	/**
 	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
-	 * @param missionModifiedActiveRequestDto
 	 */
-	int modifiedMissionActive(MissionModifiedActiveRequestDto missionModifiedActiveRequestDto);
+	int modifiedMissionActive(MissionModifiedActiveRequestDto request);
 }
