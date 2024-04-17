@@ -8,14 +8,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.daily.allowance.common.config.web.resolver.MemberResolver;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
 	private final MemberResolver memberResolver;
-
-	public WebConfig(MemberResolver memberResolver) {
-		this.memberResolver = memberResolver;
-	}
 
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {

@@ -27,7 +27,7 @@ create table Mission
     mission_amount INT      not null,
     start_date     DATE     not null,
     end_date       DATE     not null,
-    active         TINYINT  not null default 1,
+    active         BOOL     not null default true,
     constraint Mission_pk
         primary key (mission_id)
 );

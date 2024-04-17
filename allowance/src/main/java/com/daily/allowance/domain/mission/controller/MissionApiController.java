@@ -1,5 +1,7 @@
 package com.daily.allowance.domain.mission.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +13,7 @@ import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
 
 import jakarta.validation.Valid;
 
@@ -22,6 +25,17 @@ public class MissionApiController {
 
 	public MissionApiController(MissionBusiness missionBusiness) {
 		this.missionBusiness = missionBusiness;
+	}
+
+	/**
+	 * [Mission] - 미션 조회
+	 */
+	@PostMapping
+	public Api searchMission(
+		@RequestBody @Valid MissionSearchRequestDto missionSearchRequestDto
+	) {
+		List<MissionResponseDto> response = missionBusiness.searchMission(missionSearchRequestDto);
+		return Api.OK(response, missionSearchRequestDto, SuccessCode.OK);
 	}
 
 	/**

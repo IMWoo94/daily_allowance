@@ -17,19 +17,17 @@ import com.daily.allowance.domain.mission.dto.MissionChallengeRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/open-api/mission")
+@RequiredArgsConstructor
 public class MissionOpenApiController {
 
 	private final MissionBusiness missionBusiness;
 
-	public MissionOpenApiController(MissionBusiness missionBusiness) {
-		this.missionBusiness = missionBusiness;
-	}
-
 	/**
-	 * [Mission] - 미션 목록 조회
+	 * [Mission] - 가능 미션 목록 조회
 	 */
 	@GetMapping
 	public Api searchAvailableMission() {

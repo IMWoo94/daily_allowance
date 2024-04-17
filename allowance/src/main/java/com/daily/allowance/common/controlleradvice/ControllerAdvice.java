@@ -33,7 +33,7 @@ public class ControllerAdvice {
 	@ExceptionHandler(RuntimeException.class)
 	public Api unknownExceptionHandler(RuntimeException e) {
 		log.info("Exception {}", e.getClass().getName());
-		e.fillInStackTrace();
+		e.printStackTrace();
 		return Api.ERROR(ErrorCode.UNKNOWN_ERROR);
 	}
 }

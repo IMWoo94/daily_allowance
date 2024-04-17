@@ -3,31 +3,44 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.daily.allowance.domain.mission.mapper.MissionMapper">
-    <select id="searchAvailableMission"
-            resultType="com.daily.allowance.domain.mission.dto.MissionResponseDto">
+    <select id="searchMission"
+            parameterType="MissionSearchRequestDto"
+            resultType="MissionResponseDto">
         select *
         from mission
-        where active = 1
-        and current_date between start_date and end_date
+        <where>
+            <if test="active != null and active != ''">
+                active = #{active}
+            </if>
+            <if test="startDate != null">
+                and start_date <![CDATA[ <= ]]> #{startDate}
+            </if>
+            <if test="endDate != null">
+                and end_date >= #{endDate}
+            </if>
+            <if test="missionName != null and missionName != ''">
+                and mission_name like '%' || #{missionName} || '%'
+            </if>
+            <if test="missionAmount != null and missionAmount != ''">
+                and mission_amount >= #{missionAmount}
+            </if>
+        </where>
     </select>
 
     <insert id="registerMission"
-            parameterType="com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto"
+            parameterType="MissionRegisterRequestDto"
             useGeneratedKeys="true"
             keyProperty="missionId">
-        insert into mission(
-            mission_name,
-            mission_amount,
-            start_date,
-            end_date,
-            active
-        )values(
-            #{missionName},
-            #{missionAmount},
-            #{startDate},
-            #{endDate},
-            #{active}
-        )
+        insert into mission(mission_name,
+                            mission_amount,
+                            start_date,
+                            end_date,
+                            active)
+        values (#{missionName},
+                #{missionAmount},
+                #{startDate},
+                #{endDate},
+                #{active})
     </insert>
 
     <update id="modifiedMissionActive">

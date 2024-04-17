@@ -7,19 +7,27 @@ import org.springframework.stereotype.Service;
 import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
 import com.daily.allowance.domain.mission.mapper.MissionMapper;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class MissionService {
 
 	private final MissionMapper missionMapper;
 
-	public MissionService(MissionMapper missionMapper) {
-		this.missionMapper = missionMapper;
+	/**
+	 * [Mission] - 미션 목록 조회
+	 * @return List<MissionResponseDto>
+	 */
+	public List<MissionResponseDto> searchMission(MissionSearchRequestDto missionSearchRequestDto) {
+		return missionMapper.searchMission(missionSearchRequestDto);
 	}
 
 	/**
-	 * [Mission] - 미션 목록 조회
+	 * [Mission] - 가능 미션 목록 조회
 	 * @return List<MissionResponseDto>
 	 */
 	public List<MissionResponseDto> searchAvailableMission() {
