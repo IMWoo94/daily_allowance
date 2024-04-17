@@ -4,13 +4,13 @@ import java.time.LocalDate;
 import java.time.YearMonth;
 
 import com.daily.allowance.common.annotation.DailyDateFormat;
-import com.daily.allowance.common.domain.Member;
+import com.daily.allowance.common.model.Member;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
-public class PaymentHistoryRequestDto {
+public class PaymentSearchRequestDto {
 
 	@NotNull
 	@DailyDateFormat
@@ -20,7 +20,7 @@ public class PaymentHistoryRequestDto {
 	private LocalDate endDate;
 	private Member member;
 
-	public PaymentHistoryRequestDto(int year, int month, Member member) {
+	public PaymentSearchRequestDto(int year, int month, Member member) {
 		// 년월
 		YearMonth yearMonth = YearMonth.of(year, month);
 

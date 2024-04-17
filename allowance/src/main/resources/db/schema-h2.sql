@@ -14,6 +14,7 @@ create table Member
 (
     member_id          LONG auto_increment,
     member_name        varchar2 not null,
+    role               varchar2 not null,
     constraint Member_pk
         primary key (member_id)
 );
@@ -32,20 +33,23 @@ create table Mission
         primary key (mission_id)
 );
 
--- Payment Table
-DROP TABLE IF EXISTS Payment;
+-- Challenge Table
+DROP TABLE IF EXISTS Payment CASCADE;
 create table Payment
 (
-    payment_id     LONG auto_increment,
-    payment_amount INT      not null,
-    payment_date   DATE     not null,
-    status         VARCHAR2 not null,
-    member_id      LONG     not null,
-    mission_id     LONG,
+    payment_id      LONG auto_increment,
+    member_id       LONG not null,
+    mission_id      LONG,
+    payment_code    VARCHAR2 not null,
+    payment_amount  INT      not null,
+    status          VARCHAR2    not null,
+    payment_date    DATE     not null,
     constraint Payment_pk
         primary key (payment_id),
     constraint Payment_Member_Member_id_fk
         foreign key (member_id) references Member,
     constraint Payment_Mission_Mission_id_fk
         foreign key (mission_id) references Mission
-)
+);
+
+-- Payment History Table

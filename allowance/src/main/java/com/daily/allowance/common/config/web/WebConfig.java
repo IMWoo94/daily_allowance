@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.daily.allowance.common.config.web.resolver.MemberResolver;
+import com.daily.allowance.common.resolver.MemberResolver;
 
 import lombok.RequiredArgsConstructor;
 

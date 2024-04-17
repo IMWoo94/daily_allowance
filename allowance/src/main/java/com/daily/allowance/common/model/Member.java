@@ -1,4 +1,4 @@
-package com.daily.allowance.common.domain;
+package com.daily.allowance.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

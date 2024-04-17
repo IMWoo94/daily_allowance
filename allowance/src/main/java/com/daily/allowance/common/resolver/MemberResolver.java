@@ -1,4 +1,4 @@
-package com.daily.allowance.common.config.web.resolver;
+package com.daily.allowance.common.resolver;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -9,8 +9,8 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.daily.allowance.common.annotation.Admin;
 import com.daily.allowance.common.annotation.User;
-import com.daily.allowance.common.domain.Member;
-import com.daily.allowance.common.domain.Role;
+import com.daily.allowance.common.model.Member;
+import com.daily.allowance.common.model.Role;
 
 @Component
 public class MemberResolver implements HandlerMethodArgumentResolver {

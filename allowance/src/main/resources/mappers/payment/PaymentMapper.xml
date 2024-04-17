@@ -3,16 +3,38 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.daily.allowance.domain.payment.mapper.PaymentMapper">
-    <select id="searchPaymentHistory"
-            parameterType="com.daily.allowance.domain.payment.dto.PaymentHistoryRequestDto"
-            resultType="com.daily.allowance.domain.payment.dto.PaymentHistoryResponseDto">
-        SELECT p.*
+    <select id="searchPayment"
+            parameterType="PaymentSearchRequestDto"
+            resultType="PaymentResponseDto">
+        select p.*
              , m.mission_name
-        FROM PAYMENT p
-                 LEFT OUTER JOIN MISSION m
-                                 ON (p.mission_id = m.mission_id)
-        WHERE p.STATUS = 'ok'
-          AND p.PAYMENT_DATE BETWEEN #{startDate}
-            AND #{endDate}
+        from payment p
+                 left outer join mission m on (p.mission_id = m.mission_id)
+        where p.payment_date between #{startDate} and #{endDate}
     </select>
+
+    <select id="searchDuplicatePayment"
+            parameterType="PaymentRequestDto"
+            resultType="PaymentResponseDto">
+        select p.*
+        , m.mission_name
+        from payment p
+        left outer join mission m on (p.mission_id = m.mission_id)
+        where p.payment_date = #{paymentDate}
+        and p.member_id = #{memberId}
+        <if test="paymentCode.toString() != null and paymentCode.toString() != ''">
+            <choose>
+                <when test="paymentCode.toString() == 'DAILY'">
+                    and p.payment_code = #{paymentCode}
+                </when>
+                <when test="paymentCode.toString() == 'MISSION'">
+                    and p.payment_code = #{paymentCode}
+                    and p.mission_id = #{missionId}
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
 </mapper>
