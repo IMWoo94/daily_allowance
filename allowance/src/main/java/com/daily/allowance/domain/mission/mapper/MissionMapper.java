@@ -3,6 +3,7 @@ package com.daily.allowance.domain.mission.mapper;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.MyBatisMapper;
+import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 
 @MyBatisMapper
@@ -13,4 +14,6 @@ public interface MissionMapper {
 	 * @return List<MissionResponseDto>
 	 */
 	List<MissionResponseDto> searchAvailableMission();
+
+	void registerMission(MissionRegisterRequestDto missionRegisterRequestDto);
 }

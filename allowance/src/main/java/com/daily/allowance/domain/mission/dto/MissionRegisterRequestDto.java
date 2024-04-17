@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import com.daily.allowance.common.annotation.DailyDateFormat;
 
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,8 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MissionRegisterRequestDto {
-
+	@Parameter(hidden = true)
+	private Long missionId;
 	@NotNull
 	private String missionName;
 	@NotNull

@@ -1,12 +1,16 @@
 package com.daily.allowance.domain.mission.business;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
+import com.daily.allowance.common.validator.DateValidator;
 import com.daily.allowance.domain.mission.converter.MissionConverter;
 import com.daily.allowance.domain.mission.dto.MissionChallengeRequestDto;
+import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.service.MissionService;
+import com.daily.allowance.domain.mission.validator.MissionValidator;
 
 @Business
 public class MissionBusiness {
@@ -19,10 +23,23 @@ public class MissionBusiness {
 		this.missionConverter = missionConverter;
 	}
 
-	public void missionRegister() {
-		// TODO
-		// 신규 미션 등록
+	public MissionResponseDto missionRegister(MissionRegisterRequestDto missionRegisterRequestDto) {
+		// 날짜 데이터 타입 유효성 검증
+		LocalDate sDate = missionRegisterRequestDto.getStartDate();
+		LocalDate eDate = missionRegisterRequestDto.getEndDate();
+		DateValidator.dateFormatValidateWithThrow(sDate, eDate);
+
+		// 시작일 종료일 유효성 검증
+		DateValidator.compareDateWithThrow(sDate, eDate);
+
 		// 운영 기간전에 사전 등록 해야 함으로, 현재 일자 기준 넘어가면 등록 불가하도록 처리
+		MissionValidator.periodValidateWithThrow(sDate);
+
+		// 신규 미션 등록
+		missionService.registerMission(missionRegisterRequestDto);
+
+		// 응답 결과 리턴 ( 미선 ID 값 추가 )
+		return missionConverter.toResponse(missionRegisterRequestDto);
 
 	}
 

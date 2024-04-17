@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.mapper.MissionMapper;
 
@@ -22,5 +23,9 @@ public class MissionService {
 	 */
 	public List<MissionResponseDto> searchAvailableMission() {
 		return missionMapper.searchAvailableMission();
+	}
+
+	public void registerMission(MissionRegisterRequestDto missionRegisterRequestDto) {
+		missionMapper.registerMission(missionRegisterRequestDto);
 	}
 }

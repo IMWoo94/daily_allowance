@@ -5,9 +5,28 @@
 <mapper namespace="com.daily.allowance.domain.mission.mapper.MissionMapper">
     <select id="searchAvailableMission"
             resultType="com.daily.allowance.domain.mission.dto.MissionResponseDto">
-        SELECT *
-        FROM MISSION
-        WHERE ACTIVE = 1
-          AND CURRENT_DATE BETWEEN START_DATE AND END_DATE
+        select *
+        from mission
+        where active = 1
+        and current_date between start_date and end_date
     </select>
+
+    <insert id="registerMission"
+            parameterType="com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto"
+            useGeneratedKeys="true"
+            keyProperty="missionId">
+        insert into mission(
+            mission_name,
+            mission_amount,
+            start_date,
+            end_date,
+            active
+        )values(
+            #{missionName},
+            #{missionAmount},
+            #{startDate},
+            #{endDate},
+            #{active}
+        )
+    </insert>
 </mapper>

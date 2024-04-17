@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daily.allowance.common.api.Api;
+import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
+import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 
 import jakarta.validation.Valid;
 
@@ -25,11 +28,11 @@ public class MissionApiController {
 	 * [Mission] - 미션 등록
 	 */
 	@PostMapping("/register")
-	public void missionRegister(
+	public Api missionRegister(
 		@RequestBody @Valid MissionRegisterRequestDto missionRegisterRequestDto
 	) {
-		// DefaultHandlerExceptionResolver
-		missionBusiness.missionRegister();
+		MissionResponseDto response = missionBusiness.missionRegister(missionRegisterRequestDto);
+		return Api.OK(response, missionRegisterRequestDto, SuccessCode.MISSION_REGISTER);
 	}
 
 	/**
