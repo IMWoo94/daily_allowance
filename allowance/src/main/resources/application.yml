@@ -2,7 +2,10 @@ spring:
   application:
     name: allowance
   profiles:
-    active: h2, mybatis
+    group:
+      test: h2, mybatis, local
+      prod: h2, mybatis, dev
+    active: test
 logging:
   level:
     root: info
