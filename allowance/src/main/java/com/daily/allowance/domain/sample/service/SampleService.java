@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.daily.allowance.domain.sample.dao.SampleDao;
+import com.daily.allowance.domain.sample.dto.SampleResponseDto;
 import com.daily.allowance.domain.sample.mapper.SampleMapper;
 
 @Service
@@ -16,7 +16,7 @@ public class SampleService {
 		this.sampleMapper = sampleMapper;
 	}
 
-	public List<SampleDao> findAllSample() {
+	public List<SampleResponseDto> findAllSample() {
 		return sampleMapper.findAllSample();
 	}
 }

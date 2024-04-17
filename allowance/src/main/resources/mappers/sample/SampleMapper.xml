@@ -3,8 +3,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.daily.allowance.domain.sample.mapper.SampleMapper">
-    <select id="findAllSample" resultType="com.daily.allowance.domain.sample.dao.SampleDao">
-        SELECT *
-        FROM SAMPLE
+
+    <select id="findAllSample" resultType="SampleResponseDto">
+        select s.id
+             , s.description
+        from sample s
     </select>
 </mapper>

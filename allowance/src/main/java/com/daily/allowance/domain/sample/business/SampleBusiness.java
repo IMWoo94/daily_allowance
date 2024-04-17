@@ -19,10 +19,7 @@ public class SampleBusiness {
 	}
 
 	public List<SampleResponseDto> findAllSample() {
-		var samples = sampleService.findAllSample();
-		return samples.stream()
-			.map(sampleConverter::toResponse)
-			.toList();
+		return sampleService.findAllSample();
 	}
 
 }
