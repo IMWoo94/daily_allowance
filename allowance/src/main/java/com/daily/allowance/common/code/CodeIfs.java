@@ -7,4 +7,6 @@ public interface CodeIfs {
 	Integer getResponseCode();
 
 	String getDescription();
+
+	String getMessage();
 }

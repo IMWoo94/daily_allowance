@@ -12,9 +12,10 @@ import lombok.Getter;
 @Getter
 public enum SuccessCode implements CodeIfs {
 
-	OK(HttpStatus.OK.value(), 10000, "OK");
+	OK(HttpStatus.OK.value(), 10000, "OK", "OK");
 	private final Integer httpStatusCode;
 	// 정의한 status 코드
 	private final Integer responseCode;
 	private final String description;
+	private final String message;
 }
