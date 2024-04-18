@@ -4,10 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
-import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import com.daily.allowance.domain.payment.mapper.PaymentMapper;
 import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
@@ -36,7 +36,7 @@ public class PaymentService {
 	/**
 	 * [ payment ] - 지급 히스토리 등록
 	 */
-	public int registerPaymentHistory(PaymentHistoryDto request) {
+	public int registerPaymentHistory(PaymentHistoryRequestDto request) {
 		return paymentMapper.registerPaymentHistory(request);
 	}
 

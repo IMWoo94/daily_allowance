@@ -3,10 +3,10 @@ package com.daily.allowance.domain.payment.mapper;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.MyBatisMapper;
-import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
-import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
 @MyBatisMapper
@@ -25,7 +25,7 @@ public interface PaymentMapper {
 	/**
 	 * [ payment ] - 지급 히스토리 등록
 	 */
-	int registerPaymentHistory(PaymentHistoryDto request);
+	int registerPaymentHistory(PaymentHistoryRequestDto request);
 
 	/**
 	 * [ payment ] - 지급 완료 처리

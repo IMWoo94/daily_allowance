@@ -61,7 +61,7 @@
     </insert>
 
     <insert id="registerPaymentHistory"
-            parameterType="PaymentHistoryDto"
+            parameterType="PaymentHistoryRequestDto"
             useGeneratedKeys="true"
             keyProperty="paymentHistoryId">
         insert into payment_history(payment_id,

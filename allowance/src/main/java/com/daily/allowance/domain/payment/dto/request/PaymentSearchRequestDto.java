@@ -1,4 +1,4 @@
-package com.daily.allowance.domain.payment.dto;
+package com.daily.allowance.domain.payment.dto.request;
 
 import java.time.LocalDate;
 import java.time.YearMonth;

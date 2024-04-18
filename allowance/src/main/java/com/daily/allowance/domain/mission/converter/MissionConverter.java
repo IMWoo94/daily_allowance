@@ -4,8 +4,8 @@ import java.util.Optional;
 
 import com.daily.allowance.common.annotation.Converter;
 import com.daily.allowance.common.code.ErrorCode;
-import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
-import com.daily.allowance.domain.mission.dto.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.request.MissionRegisterRequestDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 import com.daily.allowance.domain.mission.exception.MissionException;
 
 @Converter

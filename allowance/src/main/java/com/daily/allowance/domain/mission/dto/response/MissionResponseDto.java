@@ -1,6 +1,7 @@
-package com.daily.allowance.domain.payment.dto;
+package com.daily.allowance.domain.mission.dto.response;
 
-import jakarta.validation.constraints.NotNull;
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,11 +11,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentMissionRequestDto {
-	@NotNull
+public class MissionResponseDto {
 	private Long missionId;
-	@NotNull
 	private String missionName;
-	@NotNull
 	private Integer missionAmount;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private boolean active;
 }

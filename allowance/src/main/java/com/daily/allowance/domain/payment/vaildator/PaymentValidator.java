@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 import com.daily.allowance.domain.payment.converter.PaymentHistoryConverter;
-import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
-import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
 import com.daily.allowance.domain.payment.model.ReasonStatus;
@@ -31,7 +31,7 @@ public class PaymentValidator {
 		// 2. 미션 운영 기간 확인
 		if (!missionResponseVo.operatedPeriodCheck(request.getPaymentDate())) {
 			// 지급 불가 - 미션 미운영 기간
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
+			PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
 				ReasonStatus.NON_OPERATING_PERIOD);
 			paymentService.registerPaymentHistory(paymentHistoryDto);
 
@@ -42,7 +42,7 @@ public class PaymentValidator {
 		if (!missionResponseVo.amountCheck(request.getPaymentAmount())) {
 			// 미션 지급 금액 불일치 예외 처리 및 지급 실패
 			// 지급 불가 - 미션 지급 금액 불일치
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
+			PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
 				ReasonStatus.AMOUNT_NOT_MATCH);
 			paymentService.registerPaymentHistory(paymentHistoryDto);
 
@@ -58,7 +58,7 @@ public class PaymentValidator {
 		if (result) {
 			// 지급 불가 - 금액 이슈
 			// 1. 지급 실패 history 등록
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
+			PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
 				ReasonStatus.AMOUNT_LESS_THAN_ZERO);
 
 			paymentService.registerPaymentHistory(paymentHistoryDto);
@@ -73,7 +73,7 @@ public class PaymentValidator {
 	public void duplicatePaymentWithThrow(PaymentRequestDto request) {
 		PaymentResponseDto duplicatePayment = paymentService.searchDuplicatePayment(request);
 		if (duplicatePayment != null) {
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
+			PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
 				ReasonStatus.DUPLICATE_PARTICIPATION);
 			// 지급 ID 추가
 			paymentHistoryDto.setPaymentId(duplicatePayment.getPaymentId());

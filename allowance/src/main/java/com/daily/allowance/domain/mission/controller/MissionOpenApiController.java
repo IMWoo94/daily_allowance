@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daily.allowance.common.api.Api;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
-import com.daily.allowance.domain.mission.dto.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 
 import lombok.RequiredArgsConstructor;
 

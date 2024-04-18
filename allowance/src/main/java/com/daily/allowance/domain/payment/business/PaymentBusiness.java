@@ -8,13 +8,13 @@ import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 import com.daily.allowance.domain.payment.converter.PaymentConverter;
 import com.daily.allowance.domain.payment.converter.PaymentHistoryConverter;
-import com.daily.allowance.domain.payment.dto.PaymentBenefitResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
-import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentDailyRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentMissionRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
 import com.daily.allowance.domain.payment.vaildator.PaymentValidator;
@@ -138,7 +138,7 @@ public class PaymentBusiness {
 		paymentService.registerPayment(paymentRequestDto);
 
 		// 2. 히스토리 dto 생성
-		PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(paymentRequestDto);
+		PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(paymentRequestDto);
 
 		// 3. 히스토리 등록
 		paymentService.registerPaymentHistory(paymentHistoryDto);

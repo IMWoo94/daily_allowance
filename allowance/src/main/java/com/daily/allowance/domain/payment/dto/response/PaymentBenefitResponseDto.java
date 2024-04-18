@@ -1,4 +1,4 @@
-package com.daily.allowance.domain.payment.dto;
+package com.daily.allowance.domain.payment.dto.response;
 
 import java.util.List;
 

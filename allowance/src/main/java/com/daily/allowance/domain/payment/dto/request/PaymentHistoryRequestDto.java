@@ -1,9 +1,9 @@
-package com.daily.allowance.domain.payment.dto;
+package com.daily.allowance.domain.payment.dto.request;
 
 import java.time.LocalDate;
 
 import com.daily.allowance.domain.payment.model.PaymentCode;
-import com.daily.allowance.domain.payment.model.PaymentStatus;
+import com.daily.allowance.domain.payment.model.ReasonStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,15 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentResponseDto {
+public class PaymentHistoryRequestDto {
 
+	private Long paymentHistoryId;
 	private Long paymentId;
 	private Long memberId;
 	private Long missionId;
 	private PaymentCode paymentCode;
 	private Integer paymentAmount;
-	private PaymentStatus status;
 	private LocalDate paymentDate;
-	private String missionName;
-
+	private ReasonStatus reason;
+	private LocalDate createdDate;
 }

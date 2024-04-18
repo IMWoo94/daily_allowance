@@ -12,11 +12,11 @@ import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.business.PaymentBusiness;
-import com.daily.allowance.domain.payment.dto.PaymentBenefitResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
-import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
-import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentDailyRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentMissionRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;

@@ -5,18 +5,18 @@ import java.util.Optional;
 
 import com.daily.allowance.common.annotation.Converter;
 import com.daily.allowance.common.code.ErrorCode;
-import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
-import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
 import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.ReasonStatus;
 
 @Converter
 public class PaymentHistoryConverter {
 
-	public PaymentHistoryDto toHistoryDto(PaymentRequestDto request) {
+	public PaymentHistoryRequestDto toHistoryDto(PaymentRequestDto request) {
 		return Optional.ofNullable(request)
 			.map(it -> {
-				return PaymentHistoryDto.builder()
+				return PaymentHistoryRequestDto.builder()
 					.paymentId(it.getPaymentId())
 					.memberId(it.getMemberId())
 					.missionId(it.getMissionId())
@@ -29,10 +29,10 @@ public class PaymentHistoryConverter {
 			.orElseThrow(() -> new PaymentException(ErrorCode.NULL_POINT));
 	}
 
-	public PaymentHistoryDto toHistoryDto(PaymentRequestDto request, ReasonStatus reasonStatus) {
+	public PaymentHistoryRequestDto toHistoryDto(PaymentRequestDto request, ReasonStatus reasonStatus) {
 		return Optional.ofNullable(request)
 			.map(it -> {
-				return PaymentHistoryDto.builder()
+				return PaymentHistoryRequestDto.builder()
 					.paymentId(it.getPaymentId())
 					.memberId(it.getMemberId())
 					.missionId(it.getMissionId())

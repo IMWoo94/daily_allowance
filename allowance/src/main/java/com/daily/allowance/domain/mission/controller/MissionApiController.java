@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
-import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
-import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
-import com.daily.allowance.domain.mission.dto.MissionResponseDto;
-import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
+import com.daily.allowance.domain.mission.dto.request.MissionModifiedActiveRequestDto;
+import com.daily.allowance.domain.mission.dto.request.MissionRegisterRequestDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.request.MissionSearchRequestDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

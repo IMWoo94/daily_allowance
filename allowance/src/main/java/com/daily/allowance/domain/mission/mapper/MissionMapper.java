@@ -5,10 +5,10 @@ import java.util.List;
 import org.apache.ibatis.annotations.Select;
 
 import com.daily.allowance.common.annotation.MyBatisMapper;
-import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
-import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
-import com.daily.allowance.domain.mission.dto.MissionResponseDto;
-import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
+import com.daily.allowance.domain.mission.dto.request.MissionModifiedActiveRequestDto;
+import com.daily.allowance.domain.mission.dto.request.MissionRegisterRequestDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
+import com.daily.allowance.domain.mission.dto.request.MissionSearchRequestDto;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 
 @MyBatisMapper

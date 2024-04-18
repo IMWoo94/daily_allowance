@@ -1,4 +1,4 @@
-package com.daily.allowance.domain.payment.dto;
+package com.daily.allowance.domain.payment.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentDailyRequestDto {
-
+public class PaymentMissionRequestDto {
 	@NotNull
-	private Integer paymentAmount;
+	private Long missionId;
+	@NotNull
+	private String missionName;
+	@NotNull
+	private Integer missionAmount;
 }

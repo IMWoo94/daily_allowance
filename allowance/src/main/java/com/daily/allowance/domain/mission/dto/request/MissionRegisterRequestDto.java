@@ -1,4 +1,4 @@
-package com.daily.allowance.domain.mission.dto;
+package com.daily.allowance.domain.mission.dto.request;
 
 import java.time.LocalDate;
 
