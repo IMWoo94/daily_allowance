@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.daily.allowance.common.api.Api;
+import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 
@@ -25,6 +26,6 @@ public class MissionOpenApiController {
 	@GetMapping
 	public Api searchAvailableMission() {
 		List<MissionResponseDto> response = missionBusiness.searchAvailableMission();
-		return Api.OK(response);
+		return Api.OK(response, null, SuccessCode.MISSION_SEARCH_COMPLETE);
 	}
 }

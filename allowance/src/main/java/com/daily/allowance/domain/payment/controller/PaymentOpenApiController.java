@@ -20,16 +20,14 @@ import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/open-api/payment")
+@RequiredArgsConstructor
 public class PaymentOpenApiController {
 
 	private final PaymentBusiness paymentBusiness;
-
-	public PaymentOpenApiController(PaymentBusiness paymentBusiness) {
-		this.paymentBusiness = paymentBusiness;
-	}
 
 	/**
 	 * [ payment ] - 지급 내역 월별 조회
@@ -42,7 +40,7 @@ public class PaymentOpenApiController {
 	) {
 		PaymentSearchRequestDto request = new PaymentSearchRequestDto(year, month, member);
 		PaymentBenefitResponseDto response = paymentBusiness.searchPaymentBenefitMonthly(request);
-		return Api.OK(response);
+		return Api.OK(response, null, SuccessCode.PAYMENT_SEARCH_COMPLETE);
 	}
 
 	/**
@@ -54,7 +52,7 @@ public class PaymentOpenApiController {
 		@RequestBody PaymentDailyRequestDto paymentDailyRequestDto
 	) {
 		PaymentResponseDto response = paymentBusiness.dailyAllowancePayment(member, paymentDailyRequestDto);
-		return Api.OK(response, paymentDailyRequestDto, SuccessCode.DAILY_ALLOWANCE_PAYMENT_COMPLETE);
+		return Api.OK(response, paymentDailyRequestDto, SuccessCode.PAYMENT_DAILY_ALLOWANCE_COMPLETE);
 	}
 
 	/**
@@ -66,6 +64,6 @@ public class PaymentOpenApiController {
 		@RequestBody @Valid PaymentMissionRequestDto paymentMissionRequestDto
 	) {
 		PaymentResponseDto response = paymentBusiness.missionPayment(member, paymentMissionRequestDto);
-		return Api.OK(response, paymentMissionRequestDto, SuccessCode.MISSION_PAYMENT_COMPLETE);
+		return Api.OK(response, paymentMissionRequestDto, SuccessCode.PAYMENT_MISSION_COMPLETE);
 	}
 }

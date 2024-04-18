@@ -16,13 +16,14 @@ public enum SuccessCode implements CodeIfs {
 	OK(HttpStatus.OK.value(), 10000, "OK", "OK"),
 
 	// 미션 코드
-	MISSION_REGISTER_COMPLETE(HttpStatus.OK.value(), 10001, "미션 등록 완료", "미션 등록 완료"),
-	MISSION_MODIFIED_COMPLETE(HttpStatus.OK.value(), 10002, "미션 수정 완료", "미션 수정 완료"),
+	MISSION_SEARCH_COMPLETE(HttpStatus.OK.value(), 10001, "미션 조회 완료", "미션 조회 완료"),
+	MISSION_REGISTER_COMPLETE(HttpStatus.OK.value(), 10002, "미션 등록 완료", "미션 등록 완료"),
+	MISSION_MODIFIED_COMPLETE(HttpStatus.OK.value(), 10003, "미션 수정 완료", "미션 수정 완료"),
 
 	// 지급 코드
-	SEARCH_PAYMENT_COMPLETE(HttpStatus.OK.value(), 10003, "지급 내역 조회 완료", "지급 내역 조회 완료"),
-	DAILY_ALLOWANCE_PAYMENT_COMPLETE(HttpStatus.OK.value(), 10004, "데일리 용돈 지급 완료", "데일리 용돈 지급 완료"),
-	MISSION_PAYMENT_COMPLETE(HttpStatus.OK.value(), 10005, "미션 지급 완료", "미션 지급 완료");
+	PAYMENT_SEARCH_COMPLETE(HttpStatus.OK.value(), 10004, "지급 내역 조회 완료", "지급 내역 조회 완료"),
+	PAYMENT_DAILY_ALLOWANCE_COMPLETE(HttpStatus.OK.value(), 10005, "데일리 용돈 지급 완료", "데일리 용돈 지급 완료"),
+	PAYMENT_MISSION_COMPLETE(HttpStatus.OK.value(), 10006, "미션 지급 완료", "미션 지급 완료");
 
 	private final Integer httpStatusCode;
 	// 정의한 status 코드
