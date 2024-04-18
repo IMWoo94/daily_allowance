@@ -78,7 +78,8 @@ public class PaymentBusiness {
 		// 4-1. 정상 응답
 
 		// 5. 지급 완료 처리
-		return completedPayment(paymentRequestDto);
+		PaymentResponseDto response = completedPayment(paymentRequestDto);
+		return response;
 	}
 
 	/**
@@ -113,7 +114,10 @@ public class PaymentBusiness {
 		// 4-1. 정상 응답
 
 		// 5. 지급 완료 처리
-		return completedPayment(paymentRequestDto);
+		PaymentResponseDto response = completedPayment(paymentRequestDto);
+		response.setMissionName(missionResponseVo.getMissionName());
+
+		return response;
 
 	}
 
@@ -151,14 +155,13 @@ public class PaymentBusiness {
 		request.setStatus(PaymentStatus.SUCCESS);
 		paymentService.modifiedPayment(request);
 
-		return paymentConverter.toResponseByDaily(request);
+		return paymentConverter.toResponse(request);
 	}
 
 	/**
 	 * [ payment ] - 지급 이력 등록 및 히스토리 등록
 	 */
-	// @Transactional
-	protected void registerPaymentAndHistory(PaymentRequestDto paymentRequestDto) {
+	private void registerPaymentAndHistory(PaymentRequestDto paymentRequestDto) {
 		// 1. 지급 이력 등록
 		paymentService.registerPayment(paymentRequestDto);
 

@@ -38,7 +38,7 @@ public class PaymentConverter {
 			.build();
 	}
 
-	public PaymentResponseDto toResponseByDaily(PaymentRequestDto request) {
+	public PaymentResponseDto toResponse(PaymentRequestDto request) {
 		return PaymentResponseDto.builder()
 			.paymentId(request.getPaymentId())
 			.memberId(request.getMemberId())
@@ -48,6 +48,19 @@ public class PaymentConverter {
 			.status(request.getStatus())
 			.paymentDate(request.getPaymentDate())
 			.missionName(request.getPaymentCode().getDescription())
+			.build();
+	}
+
+	public PaymentResponseDto toResponse(PaymentRequestDto request, String missionName) {
+		return PaymentResponseDto.builder()
+			.paymentId(request.getPaymentId())
+			.memberId(request.getMemberId())
+			.missionId(request.getMissionId())
+			.paymentCode(request.getPaymentCode())
+			.paymentAmount(request.getPaymentAmount())
+			.status(request.getStatus())
+			.paymentDate(request.getPaymentDate())
+			.missionName(missionName)
 			.build();
 	}
 
