@@ -53,5 +53,4 @@ public class PaymentService {
 	public PaymentResponseDto searchDuplicatePayment(PaymentRequestDto request) {
 		return paymentMapper.searchDuplicatePayment(request);
 	}
-
 }

@@ -36,5 +36,4 @@ public interface PaymentMapper {
 	 * [ payment ] - 중복 참여 검증
 	 */
 	PaymentResponseDto searchDuplicatePayment(PaymentRequestDto request);
-
 }

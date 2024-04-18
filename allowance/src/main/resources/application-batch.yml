@@ -1,0 +1,7 @@
+spring:
+  batch:
+    jdbc:
+      initialize-schema: embedded
+    job:
+      enabled: false  # Application 실행 시 동작 off
+      name: retryPaymentJob

@@ -90,4 +90,16 @@
         where payment_id = #{paymentId}
     </update>
 
+    <select id="searchRetryPayment"
+            resultType="PaymentResponseDto">
+        select p.*
+             , m.mission_name
+        from payment p
+                 left outer join mission m on (p.mission_id = m.mission_id)
+        where p.status = 'FAIL'
+        order by p.payment_date, p.payment_id
+            limit #{_pagesize}
+        offset #{_skiprows}
+    </select>
+
 </mapper>

@@ -3,8 +3,8 @@ spring:
     name: allowance
   profiles:
     group:
-      test: h2, mybatis, local
-      prod: h2, mybatis, dev
+      test: batch, h2, mybatis, local
+      prod: batch, h2, mybatis, dev
     active: test
 logging:
   level:
