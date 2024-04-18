@@ -6,12 +6,16 @@ import com.daily.allowance.common.annotation.Business;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.converter.PaymentConverter;
+import com.daily.allowance.domain.payment.converter.PaymentHistoryConverter;
 import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
+import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
 import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
 import com.daily.allowance.domain.payment.exception.PaymentException;
+import com.daily.allowance.domain.payment.model.PaymentStatus;
+import com.daily.allowance.domain.payment.model.ReasonStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,6 +26,7 @@ public class PaymentBusiness {
 
 	private final PaymentService paymentService;
 	private final PaymentConverter paymentConverter;
+	private final PaymentHistoryConverter paymentHistoryConverter;
 
 	/**
 	 * [ payment ] - 지급 내역 월별 조회
@@ -33,60 +38,84 @@ public class PaymentBusiness {
 	/**
 	 * [ payment ] - 데일리 용돈 받기
 	 *
-	 * 1. 데일리 용돈 금액 확인
-	 * 2. 금일 참여 확인
-	 *
-	 * 지급 처리
-	 * 1. 지급 내역 등록 및 히스토리 등록
-	 * 2. 혜택 지급 - 입금 모듈 호출 ( 주석으로 표시 )
-	 * 3. 지급 완료 처리
+	 * 1. 데일리 용돈 받기 중복 확인 ( throw exception )
+	 * 2. 지급 이력 등록 및 히스토리 등록
+	 * 3. 지급 처리 하기 전에 금액 검증  ( throw exception )
+	 * 4. 수신모듈 호출
+	 * 5. 지급 완료 처리
 	 */
-	public void dailyAllowancePayment(Member member, PaymentDailyRequestDto request) {
-		PaymentRequestDto paymentRequestDto = paymentConverter.toRequest(member, request);
+	public PaymentResponseDto dailyAllowancePayment(Member member, PaymentDailyRequestDto request) {
+		PaymentRequestDto paymentRequestDto = paymentConverter.toPaymentDtoByDaily(member, request);
 
-		// 데일리 용돈 검증
-		dailyAllowanceValidate(paymentRequestDto);
+		// 1. 데일리 용돈 받기 중복 확인
+		duplicatePaymentWithThrow(paymentRequestDto);
 
-		// 지급 등록
+		// 2. 지급 이력 등록 및 히스토리 등록
+		registerPaymentAndHistory(paymentRequestDto);
 
+		// 3. 지급 처리 하기 전에 금액 검증
+		amountLessThanZeroWithThrow(paymentRequestDto);
+
+		// 4. 수신모듈 호출
+		// 수신모듈 호출 부분
+		// 4-1. 정상 응답
+
+		// 5. 지급 완료 처리
+		PaymentResponseDto response = completedPayment(paymentRequestDto);
+		return response;
 	}
 
-	private void dailyAllowanceValidate(PaymentRequestDto request) {
-		// 1. 데일리 용돈 금액 확인
-		// 0 원 이상이여 합니다.
-		boolean amountCheck = isAmountLessThanZero(request.getPaymentAmount());
-		if (amountCheck) {
-			// 지급 불가 - 금액 이슈
-			throw new PaymentException(ErrorCode.AMOUNT_LESS_THAN_ZERO);
-		}
+	public PaymentResponseDto completedPayment(PaymentRequestDto request) {
+		request.setStatus(PaymentStatus.SUCCESS);
+		paymentService.modifiedPayment(request);
 
-		// 2. 금일 참여 확인
-		boolean duplicateCheck = hasDuplicatePayment(request);
+		PaymentResponseDto paymentResponseDto = paymentConverter.toResponseByDaily(request);
+		return paymentResponseDto;
+	}
 
-		if (duplicateCheck) {
-			// 지급 불가 - 중복 참여
-			throw new PaymentException(ErrorCode.DUPLICATED_PARTICIPATE, "데일리 용돈 받기 중복 참여");
-		}
+	/**
+	 * [ payment ] - 지급 이력 등록 및 히스토리 등록
+	 */
+	private void registerPaymentAndHistory(PaymentRequestDto paymentRequestDto) {
+		// 1. 지급 이력 등록
+		paymentService.registerPayment(paymentRequestDto);
 
+		// 2. 히스토리 dto 생성
+		PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(paymentRequestDto);
+
+		// 3. 히스토리 등록
+		paymentService.registerPaymentHistory(paymentHistoryDto);
 	}
 
 	/**
 	 * 데일리 용돈 금액 검증
-	 * amount <= 0 : true
-	 * amount > 0 : false
 	 */
-	private boolean isAmountLessThanZero(int amount) {
-		return amount <= 0;
+	private void amountLessThanZeroWithThrow(PaymentRequestDto request) {
+		boolean result = request.getPaymentAmount() <= 0;
+		if (result) {
+			// 지급 불가 - 금액 이슈
+			// 1. 지급 실패 history 등록
+			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
+				ReasonStatus.AMOUNT_LESS_THAN_ZERO);
+			paymentService.registerPaymentHistory(paymentHistoryDto);
+
+			throw new PaymentException(ErrorCode.AMOUNT_LESS_THAN_ZERO);
+		}
 	}
 
 	/**
 	 * 중복 참여 검증
-	 * 참여 O : true
-	 * 쳠여 X : false
 	 */
-	private boolean hasDuplicatePayment(PaymentRequestDto request) {
-		List<PaymentResponseDto> result = paymentService.searchDuplicatePayment(request);
-		return !result.isEmpty();
+	private void duplicatePaymentWithThrow(PaymentRequestDto request) {
+		PaymentResponseDto result = paymentService.searchDuplicatePayment(request);
+		if (result != null) {
+			// 지급 불가 - 중복 참여
+			// 1. 지급 실패 history 등록
+			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request, ReasonStatus.DUPLICATE);
+			paymentService.registerPaymentHistory(paymentHistoryDto);
+
+			throw new PaymentException(ErrorCode.DUPLICATED_PARTICIPATE, "데일리 용돈 받기 중복 참여");
+		}
 	}
 
 	/**
@@ -104,7 +133,7 @@ public class PaymentBusiness {
 	 * 3. 지급 완료 처리
 	 */
 	public void missionPayment(Member member, PaymentMissionRequestDto request) {
-		PaymentRequestDto paymentRequestDto = paymentConverter.toRequest(member, request);
+		PaymentRequestDto paymentRequestDto = paymentConverter.toPaymentDtoByMission(member, request);
 		// 미션 도전
 
 		// TODO

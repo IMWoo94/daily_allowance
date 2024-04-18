@@ -11,7 +11,7 @@ import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
-import com.daily.allowance.domain.mission.exception.MissionRegisterException;
+import com.daily.allowance.domain.mission.exception.MissionException;
 import com.daily.allowance.domain.mission.service.MissionService;
 import com.daily.allowance.domain.mission.validator.MissionValidator;
 
@@ -55,7 +55,7 @@ public class MissionBusiness {
 		int result = missionService.registerMission(request);
 
 		if (result == 0) {
-			throw new MissionRegisterException(ErrorCode.MISSION_REGISTER_FAIL);
+			throw new MissionException(ErrorCode.MISSION_REGISTER_FAIL);
 		}
 
 		// 응답 결과 리턴 ( 미선 ID 값 추가 )
@@ -89,7 +89,7 @@ public class MissionBusiness {
 		int result = missionService.modifiedMissionActive(request);
 
 		if (result == 0) {
-			throw new MissionRegisterException(ErrorCode.MISSION_MODIFIED_FAIL);
+			throw new MissionException(ErrorCode.MISSION_MODIFIED_FAIL);
 		}
 	}
 }

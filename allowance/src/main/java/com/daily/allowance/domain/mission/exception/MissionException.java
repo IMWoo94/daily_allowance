@@ -6,12 +6,12 @@ import com.daily.allowance.common.exception.ExceptionIfs;
 import lombok.Getter;
 
 @Getter
-public class MissionRegisterException extends RuntimeException implements ExceptionIfs {
+public class MissionException extends RuntimeException implements ExceptionIfs {
 
 	private final CodeIfs errorCodeIfs;
 	private final String errorDescription;
 
-	public MissionRegisterException(CodeIfs errorCodeIfs) {
+	public MissionException(CodeIfs errorCodeIfs) {
 		super(errorCodeIfs.getMessage());
 		this.errorCodeIfs = errorCodeIfs;
 		this.errorDescription = errorCodeIfs.getDescription();

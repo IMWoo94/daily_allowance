@@ -33,7 +33,7 @@ create table Mission
         primary key (mission_id)
 );
 
--- Challenge Table
+-- Payment Table
 DROP TABLE IF EXISTS Payment CASCADE;
 create table Payment
 (
@@ -53,3 +53,22 @@ create table Payment
 );
 
 -- Payment History Table
+DROP TABLE IF EXISTS Payment_History CASCADE;
+create table Payment_History
+(
+    payment_history_id LONG auto_increment,
+    payment_id      LONG not null,
+    member_id       LONG not null,
+    mission_id      LONG,
+    payment_code    VARCHAR2 not null,
+    payment_amount  INT      not null,
+    payment_date    DATE     not null,
+    reason          VARCHAR2,
+    create_date     DATE     not null default CURRENT_DATE,
+    constraint Payment_History_pk
+        primary key (payment_history_id),
+    constraint Payment_History_Member_Member_id_fk
+        foreign key (member_id) references Member,
+    constraint Payment_History_Mission_Mission_id_fk
+        foreign key (mission_id) references Mission
+);

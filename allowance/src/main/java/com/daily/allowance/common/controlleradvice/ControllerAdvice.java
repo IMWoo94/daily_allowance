@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.exception.DateTypeInvalidException;
-import com.daily.allowance.domain.mission.exception.MissionRegisterException;
+import com.daily.allowance.domain.mission.exception.MissionException;
+import com.daily.allowance.domain.payment.exception.PaymentException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,8 +26,13 @@ public class ControllerAdvice {
 		return Api.ERROR(ErrorCode.BAD_REQUEST, e);
 	}
 
-	@ExceptionHandler(MissionRegisterException.class)
-	public Api missionRegisterExceptionHandler(MissionRegisterException e) {
+	@ExceptionHandler(MissionException.class)
+	public Api missionExceptionHandler(MissionException e) {
+		return Api.ERROR(e.getErrorCodeIfs());
+	}
+
+	@ExceptionHandler(PaymentException.class)
+	public Api paymentExceptionHandler(PaymentException e) {
 		return Api.ERROR(e.getErrorCodeIfs());
 	}
 

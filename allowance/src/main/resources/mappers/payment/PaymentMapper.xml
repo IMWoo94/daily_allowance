@@ -34,7 +34,55 @@
                 <otherwise>
                 </otherwise>
             </choose>
+            limit 1
         </if>
     </select>
+
+    <insert id="registerPayment"
+            parameterType="PaymentRequestDto"
+            useGeneratedKeys="true"
+            keyProperty="paymentId">
+        insert into payment(member_id,
+                            mission_id,
+                            payment_code,
+                            payment_amount,
+                            status,
+                            payment_date)
+        values (#{memberId},
+                #{missionId},
+                #{paymentCode},
+                #{paymentAmount},
+                #{status},
+                #{paymentDate})
+    </insert>
+
+    <insert id="registerPaymentHistory"
+            parameterType="PaymentHistoryDto"
+            useGeneratedKeys="true"
+            keyProperty="paymentHistoryId">
+        insert into payment_history(payment_id,
+                                    member_id,
+                                    mission_id,
+                                    payment_code,
+                                    payment_amount,
+                                    payment_date,
+                                    reason,
+                                    create_date)
+        values (#{paymentId},
+                #{memberId},
+                #{missionId},
+                #{paymentCode},
+                #{paymentAmount},
+                #{paymentDate},
+                #{reason},
+                #{createdDate})
+    </insert>
+
+    <update id="modifiedPayment"
+            parameterType="PaymentRequestDto">
+        update payment
+        set status = #{status}
+        where payment_id = #{paymentId}
+    </update>
 
 </mapper>

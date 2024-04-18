@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daily.allowance.common.annotation.User;
 import com.daily.allowance.common.api.Api;
+import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.business.PaymentBusiness;
 import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
@@ -53,8 +54,8 @@ public class PaymentOpenApiController {
 		@User @Parameter(hidden = true) Member member,
 		@RequestBody PaymentDailyRequestDto paymentDailyRequestDto
 	) {
-		paymentBusiness.dailyAllowancePayment(member, paymentDailyRequestDto);
-		return Api.OK();
+		PaymentResponseDto response = paymentBusiness.dailyAllowancePayment(member, paymentDailyRequestDto);
+		return Api.OK(response, paymentDailyRequestDto, SuccessCode.DAILY_ALLOWANCE_COMPLETE);
 	}
 
 	/**

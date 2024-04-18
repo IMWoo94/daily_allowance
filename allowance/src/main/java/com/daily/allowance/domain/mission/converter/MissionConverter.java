@@ -6,7 +6,7 @@ import com.daily.allowance.common.annotation.Converter;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
-import com.daily.allowance.domain.mission.exception.MissionRegisterException;
+import com.daily.allowance.domain.mission.exception.MissionException;
 
 @Converter
 public class MissionConverter {
@@ -23,6 +23,6 @@ public class MissionConverter {
 					.active(it.isActive())
 					.build();
 			})
-			.orElseThrow(() -> new MissionRegisterException(ErrorCode.NULL_POINT));
+			.orElseThrow(() -> new MissionException(ErrorCode.NULL_POINT));
 	}
 }
