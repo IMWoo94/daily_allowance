@@ -3,20 +3,14 @@ package com.daily.allowance.domain.payment.dto.request;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
-import com.daily.allowance.common.annotation.DailyDateFormat;
 import com.daily.allowance.common.model.Member;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class PaymentSearchRequestDto {
 
-	@NotNull
-	@DailyDateFormat
 	private LocalDate startDate;
-	@NotNull
-	@DailyDateFormat
 	private LocalDate endDate;
 	private Long memberId;
 
