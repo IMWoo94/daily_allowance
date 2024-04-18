@@ -44,7 +44,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionRegisterRequestDto request
 	) {
 		MissionResponseDto response = missionBusiness.registerMission(request);
-		return Api.OK(response, request, SuccessCode.MISSION_REGISTER);
+		return Api.OK(response, request, SuccessCode.MISSION_REGISTER_COMPLETE);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionModifiedActiveRequestDto request
 	) {
 		missionBusiness.modifiedMissionActive(request);
-		return Api.OK(null, request, SuccessCode.MISSION_MODIFIED);
+		return Api.OK(null, request, SuccessCode.MISSION_MODIFIED_COMPLETE);
 	}
 
 }

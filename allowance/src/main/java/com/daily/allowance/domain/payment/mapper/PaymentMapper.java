@@ -7,6 +7,7 @@ import com.daily.allowance.domain.payment.dto.PaymentHistoryDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
+import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
 @MyBatisMapper
 public interface PaymentMapper {
@@ -14,7 +15,7 @@ public interface PaymentMapper {
 	/**
 	 * [ payment ] - 지급 내역 월별 조회
 	 */
-	List<PaymentResponseDto> searchPayment(PaymentSearchRequestDto request);
+	List<PaymentSearchResponseVo> searchPaymentBenefitMonthly(PaymentSearchRequestDto request);
 
 	/**
 	 * [ payment ] - 지급 등록

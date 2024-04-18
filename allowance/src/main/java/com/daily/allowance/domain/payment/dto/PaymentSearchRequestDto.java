@@ -18,7 +18,7 @@ public class PaymentSearchRequestDto {
 	@NotNull
 	@DailyDateFormat
 	private LocalDate endDate;
-	private Member member;
+	private Long memberId;
 
 	public PaymentSearchRequestDto(int year, int month, Member member) {
 		// 년월
@@ -26,6 +26,6 @@ public class PaymentSearchRequestDto {
 
 		this.startDate = yearMonth.atDay(1);    // 해당 월의 첫날.
 		this.endDate = yearMonth.atEndOfMonth(); // 해당 월의 마지막날.
-		this.member = member;
+		this.memberId = member.getMemberId();
 	}
 }

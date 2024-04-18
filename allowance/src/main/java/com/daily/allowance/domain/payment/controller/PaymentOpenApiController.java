@@ -1,7 +1,5 @@
 package com.daily.allowance.domain.payment.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +12,7 @@ import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.business.PaymentBusiness;
+import com.daily.allowance.domain.payment.dto.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
@@ -42,7 +41,7 @@ public class PaymentOpenApiController {
 		@PathVariable int month
 	) {
 		PaymentSearchRequestDto request = new PaymentSearchRequestDto(year, month, member);
-		List<PaymentResponseDto> response = paymentBusiness.searchPayment(request);
+		PaymentBenefitResponseDto response = paymentBusiness.searchPaymentBenefitMonthly(request);
 		return Api.OK(response);
 	}
 
@@ -55,7 +54,7 @@ public class PaymentOpenApiController {
 		@RequestBody PaymentDailyRequestDto paymentDailyRequestDto
 	) {
 		PaymentResponseDto response = paymentBusiness.dailyAllowancePayment(member, paymentDailyRequestDto);
-		return Api.OK(response, paymentDailyRequestDto, SuccessCode.DAILY_ALLOWANCE_COMPLETE);
+		return Api.OK(response, paymentDailyRequestDto, SuccessCode.DAILY_ALLOWANCE_PAYMENT_COMPLETE);
 	}
 
 	/**
@@ -66,7 +65,7 @@ public class PaymentOpenApiController {
 		@User @Parameter(hidden = true) Member member,
 		@RequestBody @Valid PaymentMissionRequestDto paymentMissionRequestDto
 	) {
-		paymentBusiness.missionPayment(member, paymentMissionRequestDto);
-		return Api.OK();
+		PaymentResponseDto response = paymentBusiness.missionPayment(member, paymentMissionRequestDto);
+		return Api.OK(response, paymentMissionRequestDto, SuccessCode.MISSION_PAYMENT_COMPLETE);
 	}
 }

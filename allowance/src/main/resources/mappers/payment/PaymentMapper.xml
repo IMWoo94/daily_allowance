@@ -3,14 +3,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.daily.allowance.domain.payment.mapper.PaymentMapper">
-    <select id="searchPayment"
+    <select id="searchPaymentBenefitMonthly"
             parameterType="PaymentSearchRequestDto"
-            resultType="PaymentResponseDto">
-        select p.*
-             , m.mission_name
+            resultType="PaymentSearchResponseVo">
+        select p.payment_date
+             , COALESCE(m.mission_name, '데일리 용돈') as payment_name
+             , p.payment_amount
         from payment p
                  left outer join mission m on (p.mission_id = m.mission_id)
         where p.payment_date between #{startDate} and #{endDate}
+          and p.status = 'SUCCESS'
+          and p.member_id = #{memberId}
+        order by p.payment_date desc;
     </select>
 
     <select id="searchDuplicatePayment"

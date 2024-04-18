@@ -1,15 +1,18 @@
 package com.daily.allowance.domain.payment.converter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import com.daily.allowance.common.annotation.Converter;
 import com.daily.allowance.common.model.Member;
+import com.daily.allowance.domain.payment.dto.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentDailyRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.model.PaymentCode;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
+import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
 @Converter
 public class PaymentConverter {
@@ -45,6 +48,18 @@ public class PaymentConverter {
 			.status(request.getStatus())
 			.paymentDate(request.getPaymentDate())
 			.missionName(request.getPaymentCode().getDescription())
+			.build();
+	}
+
+	public PaymentBenefitResponseDto toResponseBenefitMonthly(List<PaymentSearchResponseVo> response) {
+		int totalAmount = response.stream()
+			.map(PaymentSearchResponseVo::getPaymentAmount)
+			.mapToInt(Integer::intValue)
+			.sum();
+
+		return PaymentBenefitResponseDto.builder()
+			.results(response)
+			.totalAmount(totalAmount)
 			.build();
 	}
 }

@@ -9,21 +9,21 @@ import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
 import com.daily.allowance.domain.payment.mapper.PaymentMapper;
+import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
+
+import lombok.RequiredArgsConstructor;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService {
 
 	private final PaymentMapper paymentMapper;
 
-	public PaymentService(PaymentMapper paymentMapper) {
-		this.paymentMapper = paymentMapper;
-	}
-
 	/**
 	 * [ payment ] - 지급 내역 월별 조회
 	 */
-	public List<PaymentResponseDto> searchPayment(PaymentSearchRequestDto request) {
-		return paymentMapper.searchPayment(request);
+	public List<PaymentSearchResponseVo> searchPaymentBenefitMonthly(PaymentSearchRequestDto request) {
+		return paymentMapper.searchPaymentBenefitMonthly(request);
 	}
 
 	/**
