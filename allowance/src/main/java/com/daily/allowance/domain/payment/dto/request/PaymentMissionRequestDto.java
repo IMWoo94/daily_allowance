@@ -14,7 +14,5 @@ public class PaymentMissionRequestDto {
 	@NotNull
 	private Long missionId;
 	@NotNull
-	private String missionName;
-	@NotNull
 	private Integer missionAmount;
 }
