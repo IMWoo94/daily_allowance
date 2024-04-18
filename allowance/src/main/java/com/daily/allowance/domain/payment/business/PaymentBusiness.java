@@ -3,7 +3,6 @@ package com.daily.allowance.domain.payment.business;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
-import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
@@ -16,10 +15,9 @@ import com.daily.allowance.domain.payment.dto.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.PaymentResponseDto;
 import com.daily.allowance.domain.payment.dto.PaymentSearchRequestDto;
-import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
-import com.daily.allowance.domain.payment.model.ReasonStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
+import com.daily.allowance.domain.payment.vaildator.PaymentValidator;
 import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
 import lombok.RequiredArgsConstructor;
@@ -32,6 +30,7 @@ public class PaymentBusiness {
 	private final PaymentConverter paymentConverter;
 	private final PaymentHistoryConverter paymentHistoryConverter;
 	private final MissionBusiness missionBusiness;
+	private final PaymentValidator paymentValidator;
 
 	/**
 	 * [ payment ] - 지급 내역 월별 조회
@@ -62,13 +61,13 @@ public class PaymentBusiness {
 		PaymentRequestDto paymentRequestDto = paymentConverter.toPaymentDtoByDaily(member, request);
 
 		// 1. 데일리 용돈 받기 중복 확인 - 중복 참여는 예외 발생
-		duplicatePaymentWithThrow(paymentRequestDto);
+		paymentValidator.duplicatePaymentWithThrow(paymentRequestDto);
 
 		// 2. 데일리 용돈 지급 이력 등록 및 히스토리 등록
 		registerPaymentAndHistory(paymentRequestDto);
 
 		// 3. 지급 금액 검증
-		amountLessThanZeroWithThrow(paymentRequestDto);
+		paymentValidator.amountLessThanZeroWithThrow(paymentRequestDto);
 
 		// 4. 수신모듈 호출
 		// 수신모듈 호출 부분
@@ -95,7 +94,7 @@ public class PaymentBusiness {
 		PaymentRequestDto paymentRequestDto = paymentConverter.toPaymentDtoByMission(member, request);
 
 		// 1. 미션 중복 확인 - 중복 참여는 예외 발생
-		duplicatePaymentWithThrow(paymentRequestDto);
+		paymentValidator.duplicatePaymentWithThrow(paymentRequestDto);
 
 		// 2. 미션 지급 이력 등록 및 히스토리 등록
 		registerPaymentAndHistory(paymentRequestDto);
@@ -104,7 +103,7 @@ public class PaymentBusiness {
 		MissionResponseVo missionResponseVo = missionBusiness.searchMissionDetailById(request.getMissionId());
 
 		// 3-1. 미션 운영 기간 및 미션 금액 검증
-		missionPeriodAndAmountWithThrow(paymentRequestDto, missionResponseVo);
+		paymentValidator.missionPeriodAndAmountWithThrow(paymentRequestDto, missionResponseVo);
 
 		// 4. 수신모듈 호출
 		// 수신모듈 호출 부분
@@ -119,33 +118,6 @@ public class PaymentBusiness {
 
 		return response;
 
-	}
-
-	/**
-	 * [ payment ] - 미션 운영 기간 및 미션 금액 검증
-	 */
-	private void missionPeriodAndAmountWithThrow(PaymentRequestDto request, MissionResponseVo missionResponseVo) {
-
-		// 2. 미션 운영 기간 확인
-		if (!missionResponseVo.operatedPeriodCheck(request.getPaymentDate())) {
-			// 지급 불가 - 미션 미운영 기간
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
-				ReasonStatus.NON_OPERATING_PERIOD);
-			paymentService.registerPaymentHistory(paymentHistoryDto);
-
-			throw new PaymentException(ErrorCode.NON_OPERATING_PERIOD);
-		}
-
-		// 3. 미션 금액과 지급 금액 확인
-		if (!missionResponseVo.amountCheck(request.getPaymentAmount())) {
-			// 미션 지급 금액 불일치 예외 처리 및 지급 실패
-			// 지급 불가 - 미션 지급 금액 불일치
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
-				ReasonStatus.AMOUNT_NOT_MATCH);
-			paymentService.registerPaymentHistory(paymentHistoryDto);
-
-			throw new PaymentException(ErrorCode.AMOUNT_NOT_MATCH);
-		}
 	}
 
 	/**
@@ -170,46 +142,6 @@ public class PaymentBusiness {
 
 		// 3. 히스토리 등록
 		paymentService.registerPaymentHistory(paymentHistoryDto);
-	}
-
-	/**
-	 * [ payment ] - 데일리 용돈 금액 검증
-	 */
-	private void amountLessThanZeroWithThrow(PaymentRequestDto request) {
-		boolean result = request.getPaymentAmount() <= 0;
-		if (result) {
-			// 지급 불가 - 금액 이슈
-			// 1. 지급 실패 history 등록
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
-				ReasonStatus.AMOUNT_LESS_THAN_ZERO);
-
-			paymentService.registerPaymentHistory(paymentHistoryDto);
-
-			throw new PaymentException(ErrorCode.AMOUNT_LESS_THAN_ZERO);
-		}
-	}
-
-	/**
-	 * [ payment ] - 중복 참여 검증
-	 */
-	private void duplicatePaymentWithThrow(PaymentRequestDto request) {
-		PaymentResponseDto duplicatePayment = paymentService.searchDuplicatePayment(request);
-		if (duplicatePayment != null) {
-			PaymentHistoryDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request,
-				ReasonStatus.DUPLICATE_PARTICIPATION);
-			// 지급 ID 추가
-			paymentHistoryDto.setPaymentId(duplicatePayment.getPaymentId());
-			// 지급 불가 - 중복 참여
-			// 중복 참여 - 기지급
-			if (duplicatePayment.getStatus().equals(PaymentStatus.SUCCESS)) {
-				paymentHistoryDto.setReason(ReasonStatus.ALREADY_PAYMENT);
-			}
-
-			// 히스토리 등록
-			paymentService.registerPaymentHistory(paymentHistoryDto);
-
-			throw new PaymentException(ErrorCode.DUPLICATED_PARTICIPATE);
-		}
 	}
 
 	/**
