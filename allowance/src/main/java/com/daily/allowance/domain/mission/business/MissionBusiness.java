@@ -14,6 +14,7 @@ import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
 import com.daily.allowance.domain.mission.exception.MissionException;
 import com.daily.allowance.domain.mission.service.MissionService;
 import com.daily.allowance.domain.mission.validator.MissionValidator;
+import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -91,5 +92,12 @@ public class MissionBusiness {
 		if (result == 0) {
 			throw new MissionException(ErrorCode.MISSION_MODIFIED_FAIL);
 		}
+	}
+
+	/**
+	 * [ Mission ] - 미션 상세 조회
+	 */
+	public MissionResponseVo searchMissionDetailById(Long missionId) {
+		return missionService.searchMissionDetailById(missionId);
 	}
 }

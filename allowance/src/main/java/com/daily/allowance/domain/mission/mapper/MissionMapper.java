@@ -9,6 +9,7 @@ import com.daily.allowance.domain.mission.dto.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
+import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 
 @MyBatisMapper
 public interface MissionMapper {
@@ -35,4 +36,10 @@ public interface MissionMapper {
 	 * [ Mission ] - 미션 수정 ( 활성화, 비활성화 )
 	 */
 	int modifiedMissionActive(MissionModifiedActiveRequestDto request);
+
+	/**
+	 * [ Mission ] - 미션 상세 조회
+	 */
+	@Select("select * from mission where mission_id = #{missionId}")
+	MissionResponseVo searchMissionDetailById(Long missionId);
 }

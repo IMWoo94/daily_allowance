@@ -81,7 +81,8 @@
     <update id="modifiedPayment"
             parameterType="PaymentRequestDto">
         update payment
-        set status = #{status}
+        set status         = #{status}
+          , payment_amount = #{paymentAmount}
         where payment_id = #{paymentId}
     </update>
 

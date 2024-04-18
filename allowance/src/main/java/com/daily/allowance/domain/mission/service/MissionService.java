@@ -9,6 +9,7 @@ import com.daily.allowance.domain.mission.dto.MissionRegisterRequestDto;
 import com.daily.allowance.domain.mission.dto.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.MissionSearchRequestDto;
 import com.daily.allowance.domain.mission.mapper.MissionMapper;
+import com.daily.allowance.domain.mission.vo.MissionResponseVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -46,5 +47,12 @@ public class MissionService {
 	 */
 	public int modifiedMissionActive(MissionModifiedActiveRequestDto request) {
 		return missionMapper.modifiedMissionActive(request);
+	}
+
+	/**
+	 * [ Mission ] - 미션 상세 조회
+	 */
+	public MissionResponseVo searchMissionDetailById(Long missionId) {
+		return missionMapper.searchMissionDetailById(missionId);
 	}
 }

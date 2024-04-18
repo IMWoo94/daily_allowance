@@ -30,6 +30,8 @@ public enum ErrorCode implements CodeIfs {
 	// 지급 코드
 	DUPLICATED_PARTICIPATE(HttpStatus.BAD_REQUEST.value(), 30007, "중복 참여", "중복 참여"),
 	AMOUNT_LESS_THAN_ZERO(HttpStatus.BAD_REQUEST.value(), 30008, "지급 금액이 0원 미만 입니다.", "지급 금액이 0원 미만 입니다."),
+	NON_OPERATING_PERIOD(HttpStatus.BAD_REQUEST.value(), 30009, "미션 미운영 기간 입니다.", "미션 미운영 기간 입니다."),
+	AMOUNT_NOT_MATCH(HttpStatus.BAD_REQUEST.value(), 30009, "지급 금액과 미션 금액이 일치하지 않습니다.", "지급 금액과 미션 금액이 일치하지 않습니다."),
 
 	// 규격 외 코드
 	UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), 99999, "예외 내역을 확인해주세요.", "정의되지 않은 예외 입니다.");
