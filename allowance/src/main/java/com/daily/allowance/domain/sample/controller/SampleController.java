@@ -8,16 +8,14 @@ import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.domain.sample.business.SampleBusiness;
 
+import lombok.RequiredArgsConstructor;
+
 @RestController
 @RequestMapping("/open-api/sample")
+@RequiredArgsConstructor
 public class SampleController {
 
 	private final SampleBusiness sampleBusiness;
-
-	// 생성자 의존성 주입
-	public SampleController(SampleBusiness sampleBusiness) {
-		this.sampleBusiness = sampleBusiness;
-	}
 
 	@GetMapping("/ok")
 	public Api ok() {

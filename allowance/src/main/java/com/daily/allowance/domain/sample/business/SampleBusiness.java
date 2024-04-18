@@ -7,17 +7,15 @@ import com.daily.allowance.domain.sample.converter.SampleConverter;
 import com.daily.allowance.domain.sample.dto.SampleResponseDto;
 import com.daily.allowance.domain.sample.service.SampleService;
 
+import lombok.RequiredArgsConstructor;
+
 @Business
+@RequiredArgsConstructor
 public class SampleBusiness {
 
 	private final SampleService sampleService;
 	private final SampleConverter sampleConverter;
-
-	public SampleBusiness(SampleService sampleService, SampleConverter sampleConverter) {
-		this.sampleService = sampleService;
-		this.sampleConverter = sampleConverter;
-	}
-
+	
 	public List<SampleResponseDto> findAllSample() {
 		return sampleService.findAllSample();
 	}
