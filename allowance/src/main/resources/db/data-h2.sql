@@ -29,15 +29,44 @@ INSERT INTO Mission (mission_name, mission_amount, start_date, end_date)
 values ('올리브영', 2, '2024-03-01', '2024-04-01');
 
 -- Payment data
--- 미션
--- INSERT INTO Payment (payment_amount, payment_date, status, member_id, mission_id)
--- values (2, '2024-04-01', 'ok', 1, 1);
--- INSERT INTO Payment (payment_amount, payment_date, status, member_id, mission_id)
--- values (2, '2024-04-02', 'ok', 1, 1);
--- INSERT INTO Payment (payment_amount, payment_date, status, member_id, mission_id)
--- values (2, '2024-04-03', 'ok', 1, 1);
--- INSERT INTO Payment (payment_amount, payment_date, status, member_id, mission_id)
--- values (10, '2024-04-03', 'ok', 1, 2);
--- -- 데일리 용돈
--- INSERT INTO Payment (payment_amount, payment_date, status, member_id)
--- values (3, '2024-04-03', 'ok', 1);
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, 3, 'MISSION', 10, 'SUCCESS', '2024-04-18');
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, 2, 'MISSION', 2, 'SUCCESS', '2024-04-18');
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, 1, 'MISSION', 100, 'SUCCESS', '2024-04-18');
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, null, 'DAILY', 1, 'SUCCESS', '2024-04-18');
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, 4, 'MISSION', 2, 'FAIL', '2024-04-19'); -- 미운영 기간 실패
+INSERT INTO Payment (member_id, mission_id, payment_code, payment_amount, status, payment_date)
+values (1, 5, 'MISSION', 2, 'FAIL', '2024-04-19');
+-- 미운영 기간 실패
+
+-- Payment_History data
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (1, 1, 3, 'MISSION', 10, '2024-04-18', null, '2024-04-18');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (2, 1, 2, 'MISSION', 2, '2024-04-18', null, '2024-04-18');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (3, 1, 1, 'MISSION', 100, '2024-04-18', null, '2024-04-18');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (4, 1, null, 'DAILY', 1, '2024-04-18', null, '2024-04-18');
+
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (5, 1, 4, 'MISSION', 2, '2024-04-19', null, '2024-04-19');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (5, 1, 4, 'MISSION', 2, '2024-04-19', 'NON_OPERATING_PERIOD', '2024-04-19');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (6, 1, 4, 'MISSION', 2, '2024-04-19', null, '2024-04-19');
+INSERT INTO Payment_History (payment_id, member_id, mission_id, payment_code, payment_amount, payment_date, reason,
+                             create_date)
+values (6, 1, 4, 'MISSION', 2, '2024-04-19', 'NON_OPERATING_PERIOD', '2024-04-19');
+
