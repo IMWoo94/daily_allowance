@@ -2,13 +2,14 @@ package com.daily.allowance.domain.payment.vaildator;
 
 import org.springframework.stereotype.Component;
 
+import com.daily.allowance.common.code.CodeIfs;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
-import com.daily.allowance.domain.payment.business.PaymentBusiness;
 import com.daily.allowance.domain.payment.converter.PaymentHistoryConverter;
 import com.daily.allowance.domain.payment.dto.request.PaymentHistoryRequestDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
+import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
 import com.daily.allowance.domain.payment.model.ReasonStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
@@ -21,7 +22,6 @@ public class PaymentValidator {
 
 	private final PaymentHistoryConverter paymentHistoryConverter;
 	private final PaymentService paymentService;
-	private final PaymentBusiness paymentBusiness;
 
 	/**
 	 * [ payment ] - 미션 운영 기간 및 미션 금액 검증
@@ -46,8 +46,7 @@ public class PaymentValidator {
 		// 2. 미션 운영 기간 확인
 		if (!missionResponseVo.operatedPeriodCheck(request.getPaymentDate())) {
 			// 지급 불가 - 미션 미운영 기간
-			paymentBusiness.registerHistoryWithThrow(
-				paymentHistoryConverter.toHistoryDto(request, ReasonStatus.NON_OPERATING_PERIOD),
+			registerHistoryWithThrow(paymentHistoryConverter.toHistoryDto(request, ReasonStatus.NON_OPERATING_PERIOD),
 				ErrorCode.NON_OPERATING_PERIOD);
 		}
 	}
@@ -62,8 +61,7 @@ public class PaymentValidator {
 		if (!missionResponseVo.amountCheck(request.getPaymentAmount())) {
 			// 미션 지급 금액 불일치 예외 처리 및 지급 실패
 			// 지급 불가 - 미션 지급 금액 불일치
-			paymentBusiness.registerHistoryWithThrow(
-				paymentHistoryConverter.toHistoryDto(request, ReasonStatus.AMOUNT_NOT_MATCH),
+			registerHistoryWithThrow(paymentHistoryConverter.toHistoryDto(request, ReasonStatus.AMOUNT_NOT_MATCH),
 				ErrorCode.AMOUNT_NOT_MATCH);
 		}
 	}
@@ -76,8 +74,7 @@ public class PaymentValidator {
 		if (result) {
 			// 지급 불가 - 금액 이슈
 			// 1. 지급 실패 history 등록
-			paymentBusiness.registerHistoryWithThrow(
-				paymentHistoryConverter.toHistoryDto(request, ReasonStatus.AMOUNT_LESS_THAN_ZERO),
+			registerHistoryWithThrow(paymentHistoryConverter.toHistoryDto(request, ReasonStatus.AMOUNT_LESS_THAN_ZERO),
 				ErrorCode.AMOUNT_LESS_THAN_ZERO);
 		}
 	}
@@ -86,6 +83,7 @@ public class PaymentValidator {
 	 * [ payment ] - 중복 참여 검증
 	 */
 	public void duplicatePaymentWithThrow(PaymentRequestDto request) {
+
 		PaymentResponseDto duplicatePayment = paymentService.searchDuplicatePayment(request);
 		if (duplicatePayment != null) {
 			PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(request);
@@ -96,13 +94,23 @@ public class PaymentValidator {
 			if (duplicatePayment.getStatus().equals(PaymentStatus.SUCCESS)) {
 				// 기지급
 				paymentHistoryDto.setReason(ReasonStatus.ALREADY_PAYMENT);
-				paymentBusiness.registerHistoryWithThrow(paymentHistoryDto, ErrorCode.ALREADY_PAYMENT);
+				registerHistoryWithThrow(paymentHistoryDto, ErrorCode.ALREADY_PAYMENT);
 			} else {
 				// 중복 참여
 				paymentHistoryDto.setReason(ReasonStatus.DUPLICATE_PARTICIPATION);
-				paymentBusiness.registerHistoryWithThrow(paymentHistoryDto, ErrorCode.DUPLICATED_PARTICIPATE);
+				registerHistoryWithThrow(paymentHistoryDto, ErrorCode.DUPLICATED_PARTICIPATE);
 			}
 		}
+	}
+
+	/**
+	 * [ payment ] - 지급 실패 히스토리 등록
+	 */
+	public void registerHistoryWithThrow(PaymentHistoryRequestDto paymentHistoryDto, CodeIfs errorCode) {
+		// 1. 히스토리 등록
+		paymentService.registerPaymentHistory(paymentHistoryDto);
+
+		throw new PaymentException(errorCode);
 	}
 
 }

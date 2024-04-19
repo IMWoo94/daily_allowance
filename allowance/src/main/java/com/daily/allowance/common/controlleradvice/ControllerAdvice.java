@@ -30,7 +30,7 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(HttpMessageConversionException.class)
 	public Api httpMessageConversionExceptionHandler(HttpMessageConversionException e) {
-		return Api.ERROR(ErrorCode.BAD_REQUEST, e);
+		return Api.ERROR(ErrorCode.BAD_REQUEST, e.getMessage());
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(MissionException.class)
 	public Api missionExceptionHandler(MissionException e) {
-		return Api.ERROR(e.getErrorCodeIfs());
+		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
 	}
 
 	/**
@@ -46,7 +46,7 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(PaymentException.class)
 	public Api paymentExceptionHandler(PaymentException e) {
-		return Api.ERROR(e.getErrorCodeIfs());
+		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
 	}
 
 	/**
@@ -54,6 +54,6 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(RuntimeException.class)
 	public Api unknownExceptionHandler(RuntimeException e) {
-		return Api.ERROR(ErrorCode.UNKNOWN_ERROR, e.fillInStackTrace());
+		return Api.ERROR(ErrorCode.UNKNOWN_ERROR, e.getMessage());
 	}
 }

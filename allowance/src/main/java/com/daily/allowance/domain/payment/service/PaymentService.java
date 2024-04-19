@@ -48,7 +48,7 @@ public class PaymentService {
 	}
 
 	/**
-	 * [ payment ] - 중복 참여 검증
+	 * [ payment ] - 중복 참여 조회
 	 */
 	public PaymentResponseDto searchDuplicatePayment(PaymentRequestDto request) {
 		return paymentMapper.searchDuplicatePayment(request);

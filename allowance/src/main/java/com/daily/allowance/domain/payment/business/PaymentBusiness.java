@@ -3,7 +3,6 @@ package com.daily.allowance.domain.payment.business;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
-import com.daily.allowance.common.code.CodeIfs;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
@@ -16,7 +15,6 @@ import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
-import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
 import com.daily.allowance.domain.payment.vaildator.PaymentValidator;
@@ -45,7 +43,8 @@ public class PaymentBusiness {
 	/**
 	 * TODO 데일리 용돈 받기, 미션별 미션은 하루에 한번만 가능하다.
 	 * 고민 : 여기서 중복 참여 건에 대해서 문제는 없으나, 실제로 지급 금액에 문제가 있어 한번 지급 실패된 케이스에 대해서는 어떻게 해야할지 고민이다.
-	 *
+	 * 금액적인 부분이라 지속적으로 지급 내역 데이터가 변경되는 것은 좋지 않아 보인다.
+	 * history 로 관리를 하되, 금액 문제로 인한 이슈의 지급 처리는 배치를 통해 재처리 하는 것이 맞을거 같다.
 	 */
 
 	/**
@@ -147,16 +146,6 @@ public class PaymentBusiness {
 	private void registerHistory(PaymentHistoryRequestDto paymentHistoryDto) {
 		// 1. 히스토리 등록
 		paymentService.registerPaymentHistory(paymentHistoryDto);
-	}
-
-	/**
-	 * [ payment ] - 지급 실패 히스토리 등록
-	 */
-	public void registerHistoryWithThrow(PaymentHistoryRequestDto paymentHistoryDto, CodeIfs errorCode) {
-		// 1. 히스토리 등록
-		registerHistory(paymentHistoryDto);
-
-		throw new PaymentException(errorCode);
 	}
 
 	/**

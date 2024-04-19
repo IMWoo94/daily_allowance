@@ -12,8 +12,8 @@ import com.daily.allowance.common.code.SuccessCode;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.dto.request.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.request.MissionRegisterRequestDto;
-import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.request.MissionSearchRequestDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +33,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionSearchRequestDto request
 	) {
 		List<MissionResponseDto> response = missionBusiness.searchMission(request);
-		return Api.OK(response, request, SuccessCode.OK);
+		return Api.OK(response, SuccessCode.OK);
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionRegisterRequestDto request
 	) {
 		MissionResponseDto response = missionBusiness.registerMission(request);
-		return Api.OK(response, request, SuccessCode.MISSION_REGISTER_COMPLETE);
+		return Api.OK(response, SuccessCode.MISSION_REGISTER_COMPLETE);
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionModifiedActiveRequestDto request
 	) {
 		missionBusiness.modifiedMissionActive(request);
-		return Api.OK(null, request, SuccessCode.MISSION_MODIFIED_COMPLETE);
+		return Api.OK(SuccessCode.MISSION_MODIFIED_COMPLETE);
 	}
 
 }

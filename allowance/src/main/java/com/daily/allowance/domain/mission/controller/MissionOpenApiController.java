@@ -26,6 +26,6 @@ public class MissionOpenApiController {
 	@GetMapping
 	public Api searchAvailableMission() {
 		List<MissionResponseDto> response = missionBusiness.searchAvailableMission();
-		return Api.OK(response, null, SuccessCode.MISSION_SEARCH_COMPLETE);
+		return Api.OK(response, SuccessCode.MISSION_SEARCH_COMPLETE);
 	}
 }

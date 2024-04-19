@@ -33,7 +33,7 @@ public interface PaymentMapper {
 	int modifiedPayment(PaymentRequestDto request);
 
 	/**
-	 * [ payment ] - 중복 참여 검증
+	 * [ payment ] - 중복 참여 조회
 	 */
 	PaymentResponseDto searchDuplicatePayment(PaymentRequestDto request);
 }
