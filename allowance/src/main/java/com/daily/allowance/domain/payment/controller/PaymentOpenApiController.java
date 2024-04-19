@@ -21,10 +21,12 @@ import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/open-api/payment")
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentOpenApiController {
 
 	private final PaymentBusiness paymentBusiness;

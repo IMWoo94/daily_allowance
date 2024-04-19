@@ -32,6 +32,7 @@ public enum ErrorCode implements CodeIfs {
 	AMOUNT_LESS_THAN_ZERO(HttpStatus.BAD_REQUEST.value(), 30009, "지급 금액이 0원 미만 입니다.", "지급 금액이 0원 미만 입니다."),
 	NON_OPERATING_PERIOD(HttpStatus.BAD_REQUEST.value(), 30010, "미션 미운영 기간 입니다.", "미션 미운영 기간 입니다."),
 	AMOUNT_NOT_MATCH(HttpStatus.BAD_REQUEST.value(), 30011, "지급 금액과 미션 금액이 일치하지 않습니다.", "지급 금액과 미션 금액이 일치하지 않습니다."),
+	ALREADY_PAYMENT(HttpStatus.BAD_REQUEST.value(), 30012, "중복 지급", "중복 지급"),
 
 	// 규격 외 코드
 	UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), 99999, "예외 내역을 확인해주세요.", "정의되지 않은 예외 입니다.");

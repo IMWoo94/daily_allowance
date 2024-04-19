@@ -3,6 +3,7 @@ package com.daily.allowance.domain.payment.business;
 import java.util.List;
 
 import com.daily.allowance.common.annotation.Business;
+import com.daily.allowance.common.code.CodeIfs;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.mission.business.MissionBusiness;
 import com.daily.allowance.domain.mission.vo.MissionResponseVo;
@@ -15,6 +16,7 @@ import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
+import com.daily.allowance.domain.payment.exception.PaymentException;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
 import com.daily.allowance.domain.payment.service.PaymentService;
 import com.daily.allowance.domain.payment.vaildator.PaymentValidator;
@@ -41,11 +43,9 @@ public class PaymentBusiness {
 	}
 
 	/**
-	 * TODO 데일리 용돈 받기, 미션은 하루에 한번만 가능하다.
+	 * TODO 데일리 용돈 받기, 미션별 미션은 하루에 한번만 가능하다.
 	 * 고민 : 여기서 중복 참여 건에 대해서 문제는 없으나, 실제로 지급 금액에 문제가 있어 한번 지급 실패된 케이스에 대해서는 어떻게 해야할지 고민이다.
-	 * 해결 : 배치 프로그램을 통해 실제 지급 내역의 금액을 재수정 하고 지급 처리
-	 * - 데일리 용돈 받기 : 랜덤의 숫자를 다시 제공 ( 서버에서 넘어오는 값으로 사실상 일어나기 어렵다고 볼 수 있지만, 그런 경우 랜덤 로직은 동일하게 적용하여 지급 )
-	 * - 미션 : 진행 중이 미션의 금액을 확인하여 지급 처리 ( 미션 정보의 경우 이를 위해서 변경은 활성화, 비활성화만 진행 되도록 반영 )
+	 *
 	 */
 
 	/**
@@ -103,7 +103,7 @@ public class PaymentBusiness {
 		MissionResponseVo missionResponseVo = missionBusiness.searchMissionDetailById(request.getMissionId());
 
 		// 3-1. 미션 운영 기간 및 미션 금액 검증
-		paymentValidator.missionPeriodAndAmountWithThrow(paymentRequestDto, missionResponseVo);
+		paymentValidator.validateMissionWithThrow(paymentRequestDto, missionResponseVo);
 
 		// 4. 수신모듈 호출
 		// 수신모듈 호출 부분
@@ -137,11 +137,26 @@ public class PaymentBusiness {
 		// 1. 지급 이력 등록
 		paymentService.registerPayment(paymentRequestDto);
 
-		// 2. 히스토리 dto 생성
-		PaymentHistoryRequestDto paymentHistoryDto = paymentHistoryConverter.toHistoryDto(paymentRequestDto);
+		// 2. 히스토리 등록
+		registerHistory(paymentHistoryConverter.toHistoryDto(paymentRequestDto));
+	}
 
-		// 3. 히스토리 등록
+	/**
+	 * [ payment ] - 히스토리 등록
+	 */
+	private void registerHistory(PaymentHistoryRequestDto paymentHistoryDto) {
+		// 1. 히스토리 등록
 		paymentService.registerPaymentHistory(paymentHistoryDto);
+	}
+
+	/**
+	 * [ payment ] - 지급 실패 히스토리 등록
+	 */
+	public void registerHistoryWithThrow(PaymentHistoryRequestDto paymentHistoryDto, CodeIfs errorCode) {
+		// 1. 히스토리 등록
+		registerHistory(paymentHistoryDto);
+
+		throw new PaymentException(errorCode);
 	}
 
 	/**
