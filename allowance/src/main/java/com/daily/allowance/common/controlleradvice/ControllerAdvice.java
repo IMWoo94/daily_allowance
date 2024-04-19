@@ -8,7 +8,6 @@ import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.exception.DateTypeInvalidException;
 import com.daily.allowance.domain.mission.exception.MissionException;
-import com.daily.allowance.domain.payment.exception.PaymentException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -42,18 +41,10 @@ public class ControllerAdvice {
 	}
 
 	/**
-	 * 혜택 지급 관련 예외
-	 */
-	@ExceptionHandler(PaymentException.class)
-	public Api paymentExceptionHandler(PaymentException e) {
-		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
-	}
-
-	/**
 	 * 정의하지 않은 예외
 	 */
 	@ExceptionHandler(RuntimeException.class)
 	public Api unknownExceptionHandler(RuntimeException e) {
-		return Api.ERROR(ErrorCode.UNKNOWN_ERROR, e.getMessage());
+		return Api.ERROR(ErrorCode.UNKNOWN_ERROR);
 	}
 }

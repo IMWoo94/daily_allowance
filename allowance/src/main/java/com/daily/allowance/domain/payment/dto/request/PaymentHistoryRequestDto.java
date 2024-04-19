@@ -24,5 +24,6 @@ public class PaymentHistoryRequestDto {
 	private Integer paymentAmount;
 	private LocalDate paymentDate;
 	private ReasonStatus reason;
+	private String error;
 	private LocalDate createdDate;
 }

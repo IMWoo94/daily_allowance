@@ -5,10 +5,11 @@ import java.util.List;
 
 import com.daily.allowance.common.annotation.Converter;
 import com.daily.allowance.common.model.Member;
-import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentDailyRequestDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentMissionRequestDto;
+import com.daily.allowance.domain.payment.dto.request.PaymentRequest;
 import com.daily.allowance.domain.payment.dto.request.PaymentRequestDto;
+import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
 import com.daily.allowance.domain.payment.model.PaymentCode;
 import com.daily.allowance.domain.payment.model.PaymentStatus;
@@ -16,6 +17,15 @@ import com.daily.allowance.domain.payment.vo.PaymentSearchResponseVo;
 
 @Converter
 public class PaymentConverter {
+
+	public PaymentRequestDto toPaymentDto(Member member, PaymentRequest paymentRequest) {
+		if (paymentRequest instanceof PaymentDailyRequestDto) {
+			return toPaymentDtoByDaily(member, (PaymentDailyRequestDto)paymentRequest);
+		} else if (paymentRequest instanceof PaymentMissionRequestDto) {
+			return toPaymentDtoByMission(member, (PaymentMissionRequestDto)paymentRequest);
+		}
+		return null;
+	}
 
 	public PaymentRequestDto toPaymentDtoByDaily(Member member, PaymentDailyRequestDto request) {
 		return PaymentRequestDto.builder()

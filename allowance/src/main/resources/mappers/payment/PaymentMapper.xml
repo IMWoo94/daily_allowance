@@ -71,6 +71,7 @@
                                     payment_amount,
                                     payment_date,
                                     reason,
+                                    error,
                                     create_date)
         values (#{paymentId},
                 #{memberId},
@@ -79,6 +80,7 @@
                 #{paymentAmount},
                 #{paymentDate},
                 #{reason},
+                #{error},
                 #{createdDate})
     </insert>
 

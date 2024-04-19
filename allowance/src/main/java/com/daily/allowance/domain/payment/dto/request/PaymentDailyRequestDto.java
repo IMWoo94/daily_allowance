@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaymentDailyRequestDto {
+public class PaymentDailyRequestDto implements PaymentRequest {
 
 	@NotNull
 	private Integer paymentAmount;
