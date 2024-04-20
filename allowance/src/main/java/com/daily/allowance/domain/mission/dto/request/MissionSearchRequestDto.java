@@ -14,9 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MissionSearchRequestDto {
-
-	@DailyDateFormat
-	private LocalDate currentDate;
+	
 	private String missionName;
 	private Integer missionAmount;
 	@DailyDateFormat

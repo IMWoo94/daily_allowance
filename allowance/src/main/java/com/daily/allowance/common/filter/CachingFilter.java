@@ -37,6 +37,8 @@ public class CachingFilter implements Filter {
 
 		// 요청 URL 등록
 		InfoContext.set("url", req.getRequestURI());
+		InfoContext.set("loopbackParameter", "");
+		
 		// 요청 파라미터 등록
 		if (req.getContentLength() != 0) {
 			if ("application/json".equals(req.getContentType())) {
