@@ -33,7 +33,7 @@ public class MissionApiController {
 		@RequestBody @Valid MissionSearchRequestDto request
 	) {
 		List<MissionResponseDto> response = missionBusiness.searchMission(request);
-		return Api.OK(response, SuccessCode.OK);
+		return Api.OK(response, SuccessCode.MISSION_SEARCH_COMPLETE);
 	}
 
 	/**
