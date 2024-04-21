@@ -86,35 +86,35 @@ public class PaymentBusiness {
 	/**
 	 * [ payment ] - 미션 지급
 	 *
-	 * 1. 미션 중복 확인 ( throw exception )
-	 * 2. 미션 지급 이력 등록 및 히스토리 등록
-	 * 3. 미션 운영 기간 및 미션 금액 검증 ( throw exception )
-	 * 4. 수신모듈 호출
-	 * 5. 지급 완료 처리
+	 * 1.미션 정보 가져오기
+	 * 2. 미션 중복 확인 ( throw exception )
+	 * 3. 미션 지급 이력 등록 및 히스토리 등록
+	 * 4. 미션 운영 기간 및 미션 금액 검증 ( throw exception )
+	 * 5. 수신모듈 호출
+	 * 6. 지급 완료 처리
 	 */
 	public PaymentResponseDto missionPayment(Member member, PaymentMissionRequestDto request) {
 		PaymentRequestDto paymentRequestDto = convert(member, request);
 
-		// 1. 미션 중복 확인 - 중복 참여는 예외 발생
+		// 1. 미션 ID 를 기반으로 미션 정보 가져오기.
+		MissionResponseVo missionResponseVo = missionBusiness.searchMissionDetailById(request.getMissionId());
+		
+		// 2. 미션 중복 확인 - 중복 참여는 예외 발생
 		duplicatePaymentWithThrow(paymentRequestDto);
 
-		// 2. 미션 지급 이력 등록 및 히스토리 등록
+		// 3. 미션 지급 이력 등록 및 히스토리 등록
 		registerPaymentAndHistory(paymentRequestDto);
 
-		// 3. 미션 ID 를 기반으로 미션 정보 가져오기.
-		MissionResponseVo missionResponseVo = missionBusiness.searchMissionDetailById(request.getMissionId());
-
-		// 3-1. 미션 운영 기간 및 미션 금액 검증
+		// 4. 미션 운영 기간 및 미션 금액 검증
 		validateMissionWithThrow(paymentRequestDto, missionResponseVo);
 
-		// 4. 수신모듈 호출
+		// 5. 수신모듈 호출
 		// 수신모듈 호출 부분
 		if (!receiveModuleCall()) {
 			// 수신모듈 에러
 		}
-		// 4-1. 정상 응답
 
-		// 5. 지급 완료 처리
+		// 6. 지급 완료 처리
 		PaymentResponseDto response = completedPayment(paymentRequestDto);
 		response.setMissionName(missionResponseVo.getMissionName());
 

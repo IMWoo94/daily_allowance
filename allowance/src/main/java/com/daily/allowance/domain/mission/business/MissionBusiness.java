@@ -9,8 +9,8 @@ import com.daily.allowance.common.validator.DateValidator;
 import com.daily.allowance.domain.mission.converter.MissionConverter;
 import com.daily.allowance.domain.mission.dto.request.MissionModifiedActiveRequestDto;
 import com.daily.allowance.domain.mission.dto.request.MissionRegisterRequestDto;
-import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 import com.daily.allowance.domain.mission.dto.request.MissionSearchRequestDto;
+import com.daily.allowance.domain.mission.dto.response.MissionResponseDto;
 import com.daily.allowance.domain.mission.exception.MissionException;
 import com.daily.allowance.domain.mission.service.MissionService;
 import com.daily.allowance.domain.mission.validator.MissionValidator;
@@ -98,6 +98,13 @@ public class MissionBusiness {
 	 * [ Mission ] - 미션 상세 조회
 	 */
 	public MissionResponseVo searchMissionDetailById(Long missionId) {
-		return missionService.searchMissionDetailById(missionId);
+		MissionResponseVo missionResponseVo = missionService.searchMissionDetailById(missionId);
+
+		// 미션 정보가 없거나, ID 가 없는 경우 예외 처리
+		if (missionResponseVo == null || missionResponseVo.getMissionId() == null) {
+			throw new MissionException(ErrorCode.MISSION_VALIDATE_FAIL);
+		}
+
+		return missionResponseVo;
 	}
 }

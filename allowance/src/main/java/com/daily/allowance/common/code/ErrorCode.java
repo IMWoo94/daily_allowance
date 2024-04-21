@@ -34,6 +34,7 @@ public enum ErrorCode implements CodeIfs {
 	AMOUNT_NOT_MATCH(HttpStatus.BAD_REQUEST.value(), 30011, "지급 금액과 미션 금액이 일치하지 않습니다.", "지급 금액과 미션 금액이 일치하지 않습니다."),
 	ALREADY_PAYMENT(HttpStatus.BAD_REQUEST.value(), 30012, "중복 지급", "중복 지급"),
 
+	MISSION_VALIDATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR.value(), 30013, "미션 정보가 확인되지 않습니다.", "미션 정보가 확인되지 않습니다."),
 	// 규격 외 코드
 	UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR.value(), 99999, "예외 내역을 확인해주세요.", "정의되지 않은 예외 입니다.");
 	private final Integer httpStatusCode;
