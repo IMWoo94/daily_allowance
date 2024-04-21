@@ -30,7 +30,7 @@ public class JobRunnerConfiguration {
 	 * 단일 애플리케이션에서는 문제가 없지만 멀티 애플리케이션 환경에서는 문제 될 수 있다.
 	 */
 	// cron  초 분 시 일 월 주 (년)
-	@Scheduled(cron = "30 * * * * 7")
+	@Scheduled(cron = "30 * 23 * * *")
 	public void run() throws
 		JobInstanceAlreadyCompleteException,
 		JobExecutionAlreadyRunningException,

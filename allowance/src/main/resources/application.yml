@@ -5,7 +5,7 @@ spring:
     group:
       test: batch, h2, mybatis, local
       prod: batch, h2, mybatis, dev
-    active: test
+    active: prod
 logging:
   level:
     root: info

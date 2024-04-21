@@ -23,7 +23,7 @@ public class InfoInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
 		Exception ex) throws Exception {
 
-		log.info("InfoInterceptor afterCompletion : {}", InfoContext.getInfo());
+		// log.info("InfoInterceptor afterCompletion : {}", InfoContext.getInfo());
 
 		// 예외 정보 등록 등록
 		if (InfoContext.containsKey("exception")) {

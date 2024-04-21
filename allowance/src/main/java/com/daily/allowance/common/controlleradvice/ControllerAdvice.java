@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.daily.allowance.common.api.Api;
 import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.exception.DateTypeInvalidException;
+import com.daily.allowance.common.model.InfoContext;
 import com.daily.allowance.domain.mission.exception.MissionException;
+import com.daily.allowance.domain.payment.exception.PaymentException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,6 +39,16 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(MissionException.class)
 	public Api missionExceptionHandler(MissionException e) {
+		InfoContext.set("exception", e.getMessage());
+		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
+	}
+
+	/**
+	 * 혜택 지급 관련 예외
+	 */
+	@ExceptionHandler(PaymentException.class)
+	public Api paymentExceptionHandler(PaymentException e) {
+		InfoContext.set("exception", e.getMessage());
 		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
 	}
 
@@ -45,6 +57,7 @@ public class ControllerAdvice {
 	 */
 	@ExceptionHandler(RuntimeException.class)
 	public Api unknownExceptionHandler(RuntimeException e) {
+		InfoContext.set("exception", e.getMessage());
 		return Api.ERROR(ErrorCode.UNKNOWN_ERROR);
 	}
 }

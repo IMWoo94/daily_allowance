@@ -18,7 +18,7 @@ values ('어피치', 'USER');
 
 -- Mission data
 INSERT INTO Mission (mission_name, mission_amount, start_date, end_date)
-values ('카카오뱅크', 100, '2024-01-01', '2024-12-31');
+values ('4월의혜택', 100, '2024-01-01', '2024-12-31');
 INSERT INTO Mission (mission_name, mission_amount, start_date, end_date)
 values ('혜택 좋은 신용카드', 2, '2024-04-01', '2024-06-01');
 INSERT INTO Mission (mission_name, mission_amount, start_date, end_date)

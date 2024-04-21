@@ -1,6 +1,5 @@
 package com.daily.allowance.domain.payment.controller;
 
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,9 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daily.allowance.common.annotation.User;
 import com.daily.allowance.common.api.Api;
-import com.daily.allowance.common.code.ErrorCode;
 import com.daily.allowance.common.code.SuccessCode;
-import com.daily.allowance.common.model.InfoContext;
 import com.daily.allowance.common.model.Member;
 import com.daily.allowance.domain.payment.business.PaymentBusiness;
 import com.daily.allowance.domain.payment.dto.request.PaymentDailyRequestDto;
@@ -20,7 +17,6 @@ import com.daily.allowance.domain.payment.dto.request.PaymentMissionRequestDto;
 import com.daily.allowance.domain.payment.dto.request.PaymentSearchRequestDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentBenefitResponseDto;
 import com.daily.allowance.domain.payment.dto.response.PaymentResponseDto;
-import com.daily.allowance.domain.payment.exception.PaymentException;
 
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
@@ -71,23 +67,5 @@ public class PaymentOpenApiController {
 	) {
 		PaymentResponseDto response = paymentBusiness.missionPayment(member, paymentMissionRequestDto);
 		return Api.OK(response, SuccessCode.PAYMENT_MISSION_COMPLETE);
-	}
-
-	/**
-	 * 혜택 지급 관련 예외
-	 */
-	@ExceptionHandler(PaymentException.class)
-	public Api paymentExceptionHandler(PaymentException e) {
-		InfoContext.set("exception", e.getMessage());
-		return Api.ERROR(e.getErrorCodeIfs(), e.getErrorDescription());
-	}
-
-	/**
-	 * 정의하지 않은 예외
-	 */
-	@ExceptionHandler(RuntimeException.class)
-	public Api unknownExceptionHandler(RuntimeException e) {
-		InfoContext.set("exception", e.getMessage());
-		return Api.ERROR(ErrorCode.UNKNOWN_ERROR);
 	}
 }
